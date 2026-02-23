@@ -391,6 +391,7 @@ function ListManagementOptions() {
 function MainContent() {
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
   const [keyword, setKeyword] = useState("");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [jobType, setJobType] = useState("");
   const [location, setLocation] = useState("");
   const [employer, setEmployer] = useState("");
@@ -408,7 +409,7 @@ function MainContent() {
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
         {/* Keyword search */}
-        <div className="mb-4">
+        <div className="mb-3">
           <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
             Filter by Keyword Search
           </label>
@@ -422,68 +423,86 @@ function MainContent() {
           />
         </div>
 
-        {/* Additional filters */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-5" style={{ maxWidth: 700 }}>
-          <div>
-            <label className={labelClass}>Job Type</label>
-            <select value={jobType} onChange={(e) => setJobType(e.target.value)} className={inputClass}>
-              <option value="">-- Any --</option>
-              <option value="full-time">Full Time</option>
-              <option value="part-time">Part Time</option>
-              <option value="contract">Contract</option>
-              <option value="internship">Internship / Co-op</option>
-            </select>
+        {/* Advanced filters dropdown */}
+        <button
+          className="flex items-center gap-2 text-[13px] font-semibold mb-5 transition-colors"
+          style={{ color: "#2d5fa6" }}
+          onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+        >
+          <ChevronDown
+            size={14}
+            style={{
+              transform: showAdvancedFilters ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s ease",
+            }}
+          />
+          Advanced search filters
+        </button>
+
+        {/* Additional filters - collapsible */}
+        {showAdvancedFilters && (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-5" style={{ maxWidth: 700 }}>
+            <div>
+              <label className={labelClass}>Job Type</label>
+              <select value={jobType} onChange={(e) => setJobType(e.target.value)} className={inputClass}>
+                <option value="">-- Any --</option>
+                <option value="full-time">Full Time</option>
+                <option value="part-time">Part Time</option>
+                <option value="contract">Contract</option>
+                <option value="internship">Internship / Co-op</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Location</label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="City or Province"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Employer</label>
+              <input
+                type="text"
+                value={employer}
+                onChange={(e) => setEmployer(e.target.value)}
+                placeholder="Employer name"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Division / Department</label>
+              <input
+                type="text"
+                value={division}
+                onChange={(e) => setDivision(e.target.value)}
+                placeholder="Division"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Work Term</label>
+              <select value={workTerm} onChange={(e) => setWorkTerm(e.target.value)} className={inputClass}>
+                <option value="">-- Any --</option>
+                <option value="fall">Fall</option>
+                <option value="winter">Winter</option>
+                <option value="spring">Spring</option>
+                <option value="summer">Summer</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelClass}>Position Type</label>
+              <select value={positionType} onChange={(e) => setPositionType(e.target.value)} className={inputClass}>
+                <option value="">-- Any --</option>
+                <option value="new-grad">New Graduate</option>
+                <option value="experienced">Experienced</option>
+                <option value="student">Student</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <label className={labelClass}>Location</label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="City or Province"
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Employer</label>
-            <input
-              type="text"
-              value={employer}
-              onChange={(e) => setEmployer(e.target.value)}
-              placeholder="Employer name"
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Division / Department</label>
-            <input
-              type="text"
-              value={division}
-              onChange={(e) => setDivision(e.target.value)}
-              placeholder="Division"
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label className={labelClass}>Work Term</label>
-            <select value={workTerm} onChange={(e) => setWorkTerm(e.target.value)} className={inputClass}>
-              <option value="">-- Any --</option>
-              <option value="fall">Fall</option>
-              <option value="winter">Winter</option>
-              <option value="spring">Spring</option>
-              <option value="summer">Summer</option>
-            </select>
-          </div>
-          <div>
-            <label className={labelClass}>Position Type</label>
-            <select value={positionType} onChange={(e) => setPositionType(e.target.value)} className={inputClass}>
-              <option value="">-- Any --</option>
-              <option value="new-grad">New Graduate</option>
-              <option value="experienced">Experienced</option>
-              <option value="student">Student</option>
-            </select>
-          </div>
-        </div>
+        )}
 
         {/* Search button */}
         <div className="flex items-center gap-3 mb-6">
@@ -495,14 +514,6 @@ function MainContent() {
             onClick={() => toast.info("Searching job postings...")}
           >
             Search
-          </button>
-          <span className="text-[13px] text-gray-500">- or -</span>
-          <button
-            className="text-[13px] hover:underline"
-            style={{ color: "#2d5fa6" }}
-            onClick={() => toast.info("Navigating to Off-Campus Job Postings")}
-          >
-            Search Off-Campus Job Postings
           </button>
         </div>
 
