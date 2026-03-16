@@ -465,6 +465,20 @@ function MainContent() {
                   Job Fraud Prevention →
                 </button>
               </div>
+              <div className="border-t border-[#e0e0e0] pt-3 mt-2">
+                <p className="text-[11px] text-gray-600 leading-relaxed">
+                  If you have any questions or would like to discuss your concerns, please contact:
+                </p>
+                <p className="text-[11px] font-semibold text-gray-700 mt-1">
+                  Career Exploration & Education
+                </p>
+                <a
+                  href="mailto:careerservices@utoronto.ca"
+                  className="text-[11px] text-[#2d5fa6] hover:underline"
+                >
+                  careerservices@utoronto.ca
+                </a>
+              </div>
             </div>
           </div>
 
