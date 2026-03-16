@@ -608,6 +608,63 @@ function MainContent() {
             ))}
           </select>
         </div>
+
+        {/* Job Board Table */}
+        <div className="mt-8">
+          <h3 className="text-[14px] font-bold text-gray-800 mb-3">Job Postings</h3>
+          <div className="border border-[#d0d5de] rounded-sm overflow-x-auto bg-white">
+            <table className="w-full text-[13px] border-collapse">
+              <thead>
+                <tr className="bg-[#f5f5f5] border-b border-[#d0d5de]">
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">App Status</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">ID</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Job Title</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Organization</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Division</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Position Type</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Openings</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Location</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">App Deadline</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { id: 262086, title: "Seasonal Labourer Team Lead", org: "City of Brampton", division: "Youth Program & Initiatives", type: "Summer", openings: 6, location: "GTA", deadline: "2026-04-15" },
+                  { id: 262088, title: "Seasonal Labourer I - Cemetery", org: "City of Brampton", division: "Youth Program & Initiatives", type: "Summer", openings: 2, location: "GTA", deadline: "2026-04-20" },
+                  { id: 262090, title: "Seasonal Labourer II - Cemetery", org: "City of Brampton", division: "Youth Program & Initiatives", type: "Summer", openings: 130, location: "GTA", deadline: "2026-04-25" },
+                  { id: 262095, title: "Seasonal Labourer I", org: "City of Brampton", division: "Youth Program & Initiatives", type: "Summer", openings: 40, location: "GTA", deadline: "2026-05-01" },
+                  { id: 262097, title: "Seasonal Labourer II", org: "City of Brampton", division: "Youth Program & Initiatives", type: "Summer", openings: 130, location: "GTA", deadline: "2026-05-05" },
+                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", openings: 3, location: "U.S.A", deadline: "2026-05-10" },
+                  { id: 262155, title: "LLM Applications Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", openings: 3, location: "U.S.A", deadline: "2026-05-12" },
+                  { id: 262156, title: "Devops Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", openings: 3, location: "U.S.A", deadline: "2026-05-15" },
+                  { id: 262157, title: "Product Manager (New Grad)", org: "Uncountable", division: "Head Office", type: "Full Time", openings: 3, location: "U.S.A", deadline: "2026-05-18" },
+                  { id: 262190, title: "Math and Science onsite 1on1 Tutor", org: "MathPro Toronto Inc.", division: "Toronto Head Office", type: "Part Time", openings: 10, location: "GTA", deadline: "2026-05-20" },
+                ].map((job) => (
+                  <tr key={job.id} className="border-b border-[#e0e0e0] hover:bg-[#f9f9f9] transition-colors">
+                    <td className="px-4 py-2.5 text-gray-600">—</td>
+                    <td className="px-4 py-2.5 text-gray-600 font-semibold">{job.id}</td>
+                    <td className="px-4 py-2.5"><a href="#" className="text-[#2d5fa6] hover:underline font-semibold">{job.title}</a></td>
+                    <td className="px-4 py-2.5 text-gray-700">{job.org}</td>
+                    <td className="px-4 py-2.5 text-gray-700">{job.division}</td>
+                    <td className="px-4 py-2.5">
+                      <span className={`inline-block px-2.5 py-1 rounded-full text-[11px] font-semibold text-white whitespace-nowrap ${
+                        job.type === "Summer" ? "bg-[#ff9800]" :
+                        job.type === "Full Time" ? "bg-[#4caf50]" :
+                        job.type === "Part Time" ? "bg-[#2196f3]" :
+                        "bg-[#9c27b0]"
+                      }`}>
+                        {job.type}
+                      </span>
+                    </td>
+                    <td className="px-4 py-2.5 text-gray-700 text-center font-semibold">{job.openings}</td>
+                    <td className="px-4 py-2.5 text-gray-700">{job.location}</td>
+                    <td className="px-4 py-2.5 text-gray-600 whitespace-nowrap">{job.deadline}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
