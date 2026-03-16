@@ -396,6 +396,26 @@ function ListManagementOptions() {
 
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
+// ─── Breadcrumb Component ─────────────────────────────────────────────────────────
+
+function Breadcrumb() {
+  return (
+    <div className="bg-gray-50 border-b border-[#d0d5de] px-5 py-3 flex items-center gap-2 text-[13px]">
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>
+        Jobs & Recruitment
+      </button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>
+        Off Campus Jobs
+      </button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>
+        Off Campus Job Board
+      </button>
+    </div>
+  );
+}
+
 function MainContent() {
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
   const [keyword, setKeyword] = useState("");
@@ -414,6 +434,7 @@ function MainContent() {
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
       <TopNav active={activeNav} onSelect={setActiveNav} />
+      <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
         {/* Title */}

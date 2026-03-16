@@ -3,6 +3,26 @@ import { useRoute } from "wouter";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 
+// ─── Breadcrumb Component ─────────────────────────────────────────────────────────
+
+function Breadcrumb() {
+  return (
+    <div className="bg-gray-50 border-b border-[#d0d5de] px-5 py-3 flex items-center gap-2 text-[13px]">
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>
+        Jobs & Recruitment
+      </button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>
+        Off Campus Jobs
+      </button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>
+        Off Campus Job Board
+      </button>
+    </div>
+  );
+}
+
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
 const TOP_NAV_ITEMS = [
@@ -297,6 +317,7 @@ export default function JobPosting() {
     <div className="flex flex-col h-screen bg-white">
       {/* Top Navigation */}
       <TopNav active={activeNav} onSelect={setActiveNav} />
+      <Breadcrumb />
 
       {/* Main Content with Sidebar */}
       <div className="flex flex-1 overflow-hidden">
