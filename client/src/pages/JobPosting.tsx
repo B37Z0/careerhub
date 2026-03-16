@@ -1,8 +1,242 @@
-import { FileText } from "lucide-react";
+import { FileText, ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { useRoute } from "wouter";
+import { useState, useRef } from "react";
+import { toast } from "sonner";
+
+// ─── Top Navigation ───────────────────────────────────────────────────────────
+
+const TOP_NAV_ITEMS = [
+  "OVERVIEW",
+  "EXPERIENTIAL RECORD",
+  "MY DOCUMENTS",
+  "MY APPLICATIONS",
+  "MY INTERVIEWS",
+  "MY APPOINTMENTS",
+  "MY EVENTS",
+];
+
+function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scroll = (dir: "left" | "right") =>
+    scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
+
+  return (
+    <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
+      <button
+        className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
+        onClick={() => toast.info("Menu toggled")}
+      >
+        <Menu size={18} />
+      </button>
+      <button
+        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0"
+        onClick={() => scroll("left")}
+      >
+        <ChevronLeft size={16} />
+      </button>
+      <div
+        ref={scrollRef}
+        className="flex items-stretch overflow-x-hidden flex-1"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {TOP_NAV_ITEMS.map((item) => (
+          <button
+            key={item}
+            onClick={() => onSelect(item)}
+            className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0"
+            style={{
+              color: active === item ? "#1a1a1a" : "#444",
+              borderBottomColor: active === item ? "#2d5fa6" : "transparent",
+            }}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      <button
+        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-l border-[#ccc]"
+        onClick={() => scroll("right")}
+      >
+        <ChevronRight size={16} />
+      </button>
+    </div>
+  );
+}
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+
+interface NavItem {
+  label: string;
+  depth?: number;
+  expandable?: boolean;
+  activeHighlight?: "purple" | "purple-sub";
+  children?: NavItem[];
+}
+
+const SIDEBAR_ITEMS: NavItem[] = [
+  { label: "Dashboard" },
+  { label: "Appointments", expandable: true },
+  { label: "Co-Curricular Record", expandable: true },
+  { label: "Events & Workshops", expandable: true },
+  { label: "Experiential Learning" },
+  {
+    label: "JOBS & RECRUITMENT",
+    expandable: true,
+    activeHighlight: "purple",
+    children: [
+      { label: "Job Search Overview" },
+      { label: "Work Study", expandable: true },
+      { label: "On-Campus Jobs", expandable: true },
+      {
+        label: "OFF-CAMPUS JOBS",
+        expandable: true,
+        children: [
+          { label: "Off-Campus Job Board", activeHighlight: "purple-sub" },
+          { label: "Off-Campus Jobs Documents" },
+          { label: "Off-Campus Job Applications" },
+        ],
+      },
+      { label: "Casual Job Board", expandable: true },
+      { label: "Recruitment", expandable: true },
+    ],
+  },
+];
+
+function SidebarNavItem({
+  item,
+  depth = 0,
+  expanded,
+  onToggle,
+}: {
+  item: NavItem;
+  depth?: number;
+  expanded: Record<string, boolean>;
+  onToggle: (key: string) => void;
+}) {
+  const isExpanded = expanded[item.label];
+  const isAllCaps = item.label === item.label.toUpperCase() && item.label.replace(/\s/g, "").length > 4;
+  const isPurple = item.activeHighlight === "purple";
+  const isPurpleSub = item.activeHighlight === "purple-sub";
+
+  const paddingLeft = 20 + depth * 14;
+
+  return (
+    <>
+      <button
+        className="w-full text-left flex items-center justify-between transition-colors duration-150 group"
+        style={{
+          paddingLeft,
+          paddingRight: 16,
+          paddingTop: depth === 0 ? 10 : 8,
+          paddingBottom: depth === 0 ? 10 : 8,
+          backgroundColor:
+            isPurple || isPurpleSub
+              ? "#6b3fa0"
+              : undefined,
+        }}
+        onMouseEnter={(e) => {
+          if (!isPurple && !isPurpleSub) {
+            (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.08)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isPurple && !isPurpleSub) {
+            (e.currentTarget as HTMLElement).style.backgroundColor = "";
+          }
+        }}
+        onClick={() => {
+          if (item.expandable) {
+            onToggle(item.label);
+          } else {
+            toast.info("Feature coming soon");
+          }
+        }}
+      >
+        <span
+          className="text-[13px] leading-tight"
+          style={{
+            color: isPurple || isPurpleSub ? "#fff" : "rgba(230,235,245,0.92)",
+            fontWeight: isAllCaps || isPurple || isPurpleSub ? 700 : 400,
+          }}
+        >
+          {item.label}
+        </span>
+        {item.expandable && (
+          <ChevronDown
+            size={13}
+            className="flex-shrink-0 transition-transform duration-200"
+            style={{
+              transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+              color: isPurple || isPurpleSub ? "#fff" : "rgba(180,190,210,0.7)",
+            }}
+          />
+        )}
+      </button>
+
+      {/* Children */}
+      {item.children && isExpanded && (
+        <div style={{ backgroundColor: "rgba(0,0,0,0.15)" }}>
+          {item.children.map((child) => (
+            <SidebarNavItem
+              key={child.label}
+              item={child}
+              depth={depth + 1}
+              expanded={expanded}
+              onToggle={onToggle}
+            />
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+function Sidebar() {
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({
+    "JOBS & RECRUITMENT": true,
+    "OFF-CAMPUS JOBS": true,
+  });
+
+  const toggle = (key: string) =>
+    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  return (
+    <div
+      className="flex flex-col overflow-y-auto flex-shrink-0"
+      style={{
+        width: 280,
+        minWidth: 280,
+        backgroundColor: "#1e2a5e",
+        minHeight: "calc(100vh - 48px)",
+      }}
+    >
+      {/* User name */}
+      <div
+        className="px-5 py-5"
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.12)" }}
+      >
+        <h2 className="text-white font-bold text-[22px] leading-tight">Ben Zhou</h2>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 py-1">
+        {SIDEBAR_ITEMS.map((item) => (
+          <SidebarNavItem
+            key={item.label}
+            item={item}
+            depth={0}
+            expanded={expanded}
+            onToggle={toggle}
+          />
+        ))}
+      </nav>
+    </div>
+  );
+}
 
 export default function JobPosting() {
   const [match, params] = useRoute("/job/:id");
+  const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
 
   if (!match) return null;
 
@@ -57,10 +291,20 @@ export default function JobPosting() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header Section */}
-      <div className="bg-[#4a4a4a] text-white px-8 py-8">
-        <div className="flex items-start gap-6 max-w-6xl mx-auto">
+    <div className="flex flex-col h-screen bg-white">
+      {/* Top Navigation */}
+      <TopNav active={activeNav} onSelect={setActiveNav} />
+
+      {/* Main Content with Sidebar */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <Sidebar />
+
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto bg-white">
+          {/* Header Section */}
+        <div className="bg-[#4a4a4a] text-white px-8 py-8">
+          <div className="flex items-start gap-6 max-w-6xl mx-auto">
           <div className="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center flex-shrink-0">
             <FileText size={48} className="text-white" />
           </div>
@@ -80,38 +324,38 @@ export default function JobPosting() {
               Job Posting
             </div>
           </div>
+          </div>
         </div>
-      </div>
 
-      {/* Status Section */}
-      <div className="border-b border-gray-200 px-8 py-6 max-w-6xl mx-auto">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        {/* Status Section */}
+        <div className="border-b border-gray-200 px-8 py-6 max-w-6xl mx-auto">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
             <span className="font-semibold text-gray-700">Job Posting Status:</span>
             <span className="px-3 py-1 bg-[#333] text-white rounded-full text-sm font-semibold">
               {jobData.status}
             </span>
+            </div>
+            <button className="text-gray-600 hover:text-gray-800">⋮</button>
           </div>
-          <button className="text-gray-600 hover:text-gray-800">⋮</button>
         </div>
-      </div>
 
-      {/* Tabs Section */}
-      <div className="border-b border-gray-200 px-8 max-w-6xl mx-auto">
-        <div className="flex gap-8">
-          <button className="py-4 px-2 font-semibold text-gray-800 border-b-4 border-[#ff9800]">
+        {/* Tabs Section */}
+        <div className="border-b border-gray-200 px-8 max-w-6xl mx-auto">
+          <div className="flex gap-8">
+            <button className="py-4 px-2 font-semibold text-gray-800 border-b-4 border-[#ff9800]">
             Overview
-          </button>
-          <button className="py-4 px-2 font-semibold text-[#2d5fa6] hover:text-gray-800">
-            Map
-          </button>
+            </button>
+            <button className="py-4 px-2 font-semibold text-[#2d5fa6] hover:text-gray-800">
+              Map
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="px-8 py-8 max-w-6xl mx-auto grid grid-cols-3 gap-8">
-        {/* Left Column - Job Information */}
-        <div className="col-span-2">
+        {/* Main Content */}
+        <div className="px-8 py-8 max-w-6xl mx-auto grid grid-cols-3 gap-8">
+          {/* Left Column - Job Information */}
+          <div className="col-span-2">
           {/* Job Posting Information */}
           <div className="mb-8">
             <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-[#ff9800]">Job Posting Information</h2>
@@ -261,10 +505,10 @@ export default function JobPosting() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
 
-        {/* Right Column - Tags and Actions */}
-        <div>
+          {/* Right Column - Tags and Actions */}
+          <div>
           <div className="bg-gray-50 p-6 rounded sticky top-8">
             <h3 className="text-lg font-bold mb-4">TAGS</h3>
             <div className="space-y-2 mb-6">
@@ -291,6 +535,8 @@ export default function JobPosting() {
               </button>
             </div>
           </div>
+        </div>
+        </div>
         </div>
       </div>
     </div>
