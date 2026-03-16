@@ -416,13 +416,14 @@ function MainContent() {
         {/* Title */}
         <h2 className="text-[16px] font-bold text-gray-800 mb-4">Off-Campus Job Board</h2>
 
-        {/* Keyword search with Quick Searches on the right */}
-        <div className="flex gap-5 mb-3">
-          <div className="flex-shrink-0">
-            <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+        {/* Two-column layout with isolated halves */}
+        <div className="grid grid-cols-2 gap-5 mb-3">
+          {/* Left half: Search widget */}
+          <div className="border border-[#d0d5de] rounded-sm p-4 bg-white">
+            <label className="block text-[13px] font-semibold text-gray-700 mb-2.5">
               Filter by Keyword Search
             </label>
-            <div className="relative" style={{ maxWidth: 420 }}>
+            <div className="relative">
               <input
                 type="text"
                 value={keyword}
@@ -438,7 +439,9 @@ function MainContent() {
               </button>
             </div>
           </div>
-          <div className="flex-1">
+
+          {/* Right half: Quick Searches widget */}
+          <div>
             <QuickSearches />
           </div>
         </div>
