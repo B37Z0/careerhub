@@ -245,12 +245,17 @@ function Sidebar() {
 // ─── Quick Searches ───────────────────────────────────────────────────────────
 
 const QUICK_SEARCHES = [
-  { count: 2, label: "Applied To" },
-  { count: 1, label: "Shortlist" },
-  { count: 23, label: "Viewed" },
-  { count: 221, label: "New Posting Since Last Login" },
-  { count: 10, label: "Postings added in the last 2 days" },
-  { count: 10, label: "Application Deadlines Today" },
+  { count: 12, label: "Applied To" },
+  { count: 5, label: "Shortlist" },
+  { count: 34, label: "New Postings" },
+  { count: 8, label: "Deadlines Soon" },
+];
+
+const SAVED_FILTERS = [
+  "Tech Companies - Remote",
+  "Finance - Toronto",
+  "Summer Internships 2024",
+  "4-Month Co-ops",
 ];
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
@@ -506,7 +511,7 @@ function MainContent() {
           </div>
         )}
 
-        {/* Search button */}
+        {/* Search and Save Filters buttons */}
         <div className="flex items-center gap-3 mb-6">
           <button
             className="px-5 py-2 text-[14px] font-semibold text-white rounded-sm transition-colors"
@@ -517,18 +522,36 @@ function MainContent() {
           >
             Search
           </button>
+          <button
+            className="px-4 py-2 text-[13px] font-semibold text-white rounded-sm transition-colors"
+            style={{ backgroundColor: "#555" }}
+            onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#444")}
+            onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#555")}
+            onClick={() => toast.info("Filter saved successfully")}
+          >
+            Save Filters
+          </button>
+          <select
+            className="border border-[#aaa] rounded-sm px-3 py-2 text-[13px] focus:outline-none focus:border-[#2d5fa6] bg-white"
+            onChange={(e) => {
+              if (e.target.value) {
+                toast.info(`Loaded: ${e.target.value}`);
+              }
+            }}
+            defaultValue=""
+          >
+            <option value="">-- Load Saved Filters --</option>
+            {SAVED_FILTERS.map((filter) => (
+              <option key={filter} value={filter}>
+                {filter}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Two-column grid */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-          <div>
-            <QuickSearches />
-          </div>
-          <div className="space-y-5">
-            <MySavedSearches />
-            <SearchPosting />
-            <ListManagementOptions />
-          </div>
+        {/* Quick Searches */}
+        <div className="mb-6">
+          <QuickSearches />
         </div>
       </div>
     </div>
