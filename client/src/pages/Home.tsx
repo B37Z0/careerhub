@@ -9,7 +9,7 @@
 
 import { useState, useRef } from "react";
 import { toast } from "sonner";
-import { ChevronDown, ChevronLeft, ChevronRight, Menu, Info } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Menu, Info, Search } from "lucide-react";
 
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
@@ -413,19 +413,34 @@ function MainContent() {
       <TopNav active={activeNav} onSelect={setActiveNav} />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
-        {/* Keyword search */}
-        <div className="mb-3">
-          <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
-            Filter by Keyword Search
-          </label>
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            placeholder="Keyword Search"
-            className={inputClass}
-            style={{ maxWidth: 420 }}
-          />
+        {/* Title */}
+        <h2 className="text-[16px] font-bold text-gray-800 mb-4">Off-Campus Job Board</h2>
+
+        {/* Keyword search with Quick Searches on the right */}
+        <div className="flex gap-5 mb-3">
+          <div className="flex-shrink-0">
+            <label className="block text-[13px] font-semibold text-gray-700 mb-1.5">
+              Filter by Keyword Search
+            </label>
+            <div className="relative" style={{ maxWidth: 420 }}>
+              <input
+                type="text"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                placeholder="Keyword Search"
+                className={inputClass}
+              />
+              <button
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                onClick={() => toast.info("Searching...")}
+              >
+                <Search size={16} />
+              </button>
+            </div>
+          </div>
+          <div className="flex-1">
+            <QuickSearches />
+          </div>
         </div>
 
         {/* Advanced filters dropdown */}
@@ -547,11 +562,6 @@ function MainContent() {
               </option>
             ))}
           </select>
-        </div>
-
-        {/* Quick Searches */}
-        <div className="mb-6">
-          <QuickSearches />
         </div>
       </div>
     </div>
