@@ -318,7 +318,7 @@ export default function JobPosting() {
             <h1 className="text-3xl font-bold mb-2">{jobData.id} - {jobData.title}</h1>
             <p className="text-lg text-gray-200">{jobData.organization} - {jobData.division}</p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="px-3 py-1 bg-[#4CAF50] text-white rounded-full text-xs font-semibold">Full Time</span>
+              <span className="px-3 py-1 bg-[#9C27B0] text-white rounded-full text-xs font-semibold">12 months</span>
               <span className="px-3 py-1 bg-[#2196F3] text-white rounded-full text-xs font-semibold">Computer, Information and Internet Services</span>
               <span className="px-3 py-1 bg-[#FF9800] text-white rounded-full text-xs font-semibold">Incomplete</span>
             </div>
@@ -458,7 +458,18 @@ export default function JobPosting() {
               </div>
               <div>
                 <p className="font-semibold text-gray-700">Documents Required:</p>
-                <p className="text-gray-600">{jobData.documentsRequired}</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-semibold">Resume</span>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-semibold">CV</span>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-semibold">Cover Letter</span>
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-700">Application Method:</p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-semibold">External</span>
+                  <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-semibold">Direct</span>
+                </div>
               </div>
               <div>
                 <p className="font-semibold text-gray-700">Additional Information:</p>
