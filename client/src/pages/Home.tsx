@@ -96,14 +96,10 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Work Study", expandable: true },
       { label: "On-Campus Jobs", expandable: true },
       {
-        label: "Off-Campus Job Board",
-        expandable: false,
-        activeHighlight: "purple-sub",
-      },
-      {
         label: "OFF-CAMPUS JOBS",
         expandable: true,
         children: [
+          { label: "Off-Campus Job Board", activeHighlight: "purple-sub" },
           { label: "Off-Campus Jobs Documents" },
           { label: "Off-Campus Job Applications" },
         ],
@@ -474,7 +470,6 @@ function MainContent() {
                 <option value="8-months">8 Months</option>
                 <option value="12-months">12 Months</option>
                 <option value="permanent">Permanent</option>
-                <option value="part-time">Part Time</option>
               </select>
             </div>
             <div>
