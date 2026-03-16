@@ -1,0 +1,298 @@
+import { FileText } from "lucide-react";
+import { useRoute } from "wouter";
+
+export default function JobPosting() {
+  const [match, params] = useRoute("/job/:id");
+
+  if (!match) return null;
+
+  const jobId = params?.id;
+
+  // Job posting data
+  const jobData = {
+    id: "262153",
+    title: "Full-Stack Engineer",
+    organization: "Uncountable",
+    division: "Head Office",
+    status: "Approved",
+    jobType: "Full Time Future Grads",
+    occupation: "Engineering",
+    description: "Thank you for your interest in Uncountable Engineering!\n\nDescription\nUncountable is seeking experienced platform engineers who are passionate about user experience and scaling web applications. Our goal is to revolutionize industrial research and development. We're looking for motivated engineers who can help to build a state of the art development platform that will be used across Fortune 500 companies.\n\nPrimary Responsibility\nYour primary responsibility will be to develop the Uncountable Web Platform where scientists upload and analyze their experiments. This role would be about half front-end and half back-end.",
+    salaryRange: "$120K-$160K + Equity",
+    stack: {
+      backend: "Flask (Python), Postgres",
+      frontend: "React (Typescript), Redux, Sass",
+    },
+    benefits: [
+      "Competitive Salary and Equity",
+      "Health and Dental Insurance",
+      "401K with Employer Contribution",
+    ],
+    requirements: [
+      "2 years of development experience",
+      "Strong interest in developing data analysis-driven user interfaces and experiences",
+      "Experience with modern Javascript best practices",
+      "Solid computer science and software engineering fundamentals",
+    ],
+    preferredQualifications: [
+      "B.S. in computer science",
+      "Familiarity with React, ES6",
+      "Familiarity with SQL Databases including query performance optimization",
+    ],
+    degree: "Bachelor degree in progress",
+    location: "U.S.A",
+    country: "United States",
+    compensation: "Paid - Salary",
+    annualSalary: 125000,
+    hoursPerWeek: "35+",
+    positions: 3,
+    deadline: "June 1, 2026 11:59 PM",
+    applicationProcedure: "Employer Website",
+    applicationLink: "https://jobs.ashbyhq.com/uncountable/7f39fc4d-7cc5-42a8-8021-e30cfaa47470",
+    documentsRequired: "Resume, Transcript (Unofficial)",
+    additionalInfo: "Applications will be considered on a rolling basis. Immediate start or post-graduate start dates in 2026 are both available.",
+    website: "https://www.uncountable.com/",
+    industry: "Computer, Information and Internet Services",
+    funding: "Private for Profit",
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header Section */}
+      <div className="bg-[#4a4a4a] text-white px-8 py-8">
+        <div className="flex items-start gap-6 max-w-6xl mx-auto">
+          <div className="w-24 h-24 rounded-full border-4 border-white flex items-center justify-center flex-shrink-0">
+            <FileText size={48} className="text-white" />
+          </div>
+          <div className="flex-1 pt-2">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-sm font-semibold text-gray-300">Job Posting</span>
+            </div>
+            <h1 className="text-3xl font-bold mb-2">{jobData.id} - {jobData.title}</h1>
+            <p className="text-lg text-gray-200">{jobData.organization} - {jobData.division}</p>
+            <button className="mt-4 px-4 py-2 bg-[#333] hover:bg-[#222] rounded text-white font-semibold">
+              I intend to apply
+            </button>
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
+              <span className="w-3 h-3 bg-gray-400 rounded-full"></span>
+              Job Posting
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Status Section */}
+      <div className="border-b border-gray-200 px-8 py-6 max-w-6xl mx-auto">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-gray-700">Job Posting Status:</span>
+            <span className="px-3 py-1 bg-[#333] text-white rounded-full text-sm font-semibold">
+              {jobData.status}
+            </span>
+          </div>
+          <button className="text-gray-600 hover:text-gray-800">⋮</button>
+        </div>
+      </div>
+
+      {/* Tabs Section */}
+      <div className="border-b border-gray-200 px-8 max-w-6xl mx-auto">
+        <div className="flex gap-8">
+          <button className="py-4 px-2 font-semibold text-gray-800 border-b-4 border-[#ff9800]">
+            Overview
+          </button>
+          <button className="py-4 px-2 font-semibold text-[#2d5fa6] hover:text-gray-800">
+            Map
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="px-8 py-8 max-w-6xl mx-auto grid grid-cols-3 gap-8">
+        {/* Left Column - Job Information */}
+        <div className="col-span-2">
+          {/* Job Posting Information */}
+          <div className="mb-8">
+            <h2 className="text-xl font-bold mb-6 pb-3 border-b-2 border-[#ff9800]">Job Posting Information</h2>
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 border-b border-gray-200 pb-4">
+                <div>
+                  <p className="font-semibold text-gray-700">Job Type:</p>
+                  <p className="text-gray-600">{jobData.jobType}</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-700">Job Title:</p>
+                  <p className="text-gray-600">{jobData.title}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4 border-b border-gray-200 pb-4">
+                <div>
+                  <p className="font-semibold text-gray-700">Occupation:</p>
+                  <p className="text-gray-600">{jobData.occupation}</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-700">Salary Range:</p>
+                  <p className="text-gray-600">{jobData.salaryRange}</p>
+                </div>
+              </div>
+              <div className="border-b border-gray-200 pb-4">
+                <p className="font-semibold text-gray-700 mb-2">Job Description:</p>
+                <p className="text-gray-600 whitespace-pre-line text-sm leading-relaxed">{jobData.description}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Tech Stack */}
+          <div className="mb-8">
+            <h3 className="text-lg font-bold mb-4">Our Current Stack</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gray-50 p-4 rounded">
+                <p className="font-semibold text-gray-700 mb-2">Backend:</p>
+                <p className="text-gray-600">{jobData.stack.backend}</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded">
+                <p className="font-semibold text-gray-700 mb-2">Frontend:</p>
+                <p className="text-gray-600">{jobData.stack.frontend}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Benefits */}
+          <div className="mb-8">
+            <h3 className="text-lg font-bold mb-4">Benefits</h3>
+            <ul className="space-y-2">
+              {jobData.benefits.map((benefit, idx) => (
+                <li key={idx} className="text-gray-600 flex items-start gap-2">
+                  <span className="text-[#ff9800] mt-1">•</span>
+                  {benefit}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Job Qualifications */}
+          <div className="mb-8">
+            <h3 className="text-lg font-bold mb-4">Job Qualifications</h3>
+            
+            <div className="mb-6">
+              <h4 className="font-semibold text-gray-700 mb-3">Requirements</h4>
+              <ul className="space-y-2">
+                {jobData.requirements.map((req, idx) => (
+                  <li key={idx} className="text-gray-600 flex items-start gap-2">
+                    <span className="text-[#ff9800] mt-1">•</span>
+                    {req}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-gray-700 mb-3">Preferred Qualifications</h4>
+              <ul className="space-y-2">
+                {jobData.preferredQualifications.map((qual, idx) => (
+                  <li key={idx} className="text-gray-600 flex items-start gap-2">
+                    <span className="text-[#ff9800] mt-1">•</span>
+                    {qual}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Application Information */}
+          <div className="mb-8">
+            <h3 className="text-lg font-bold mb-4">Application Information</h3>
+            <div className="space-y-4 bg-gray-50 p-4 rounded">
+              <div>
+                <p className="font-semibold text-gray-700">Application Deadline:</p>
+                <p className="text-gray-600">{jobData.deadline}</p>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-700">Application Procedure:</p>
+                <p className="text-gray-600">{jobData.applicationProcedure}</p>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-700">Application Link:</p>
+                <a href={jobData.applicationLink} target="_blank" rel="noopener noreferrer" className="text-[#2d5fa6] hover:underline">
+                  {jobData.applicationLink}
+                </a>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-700">Documents Required:</p>
+                <p className="text-gray-600">{jobData.documentsRequired}</p>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-700">Additional Information:</p>
+                <p className="text-gray-600">{jobData.additionalInfo}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Organization Information */}
+          <div>
+            <h3 className="text-lg font-bold mb-4">Organization Information</h3>
+            <div className="space-y-3 bg-gray-50 p-4 rounded">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="font-semibold text-gray-700">Organization:</p>
+                  <p className="text-gray-600">{jobData.organization}</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-700">Industry:</p>
+                  <p className="text-gray-600">{jobData.industry}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="font-semibold text-gray-700">Funding:</p>
+                  <p className="text-gray-600">{jobData.funding}</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-700">Division:</p>
+                  <p className="text-gray-600">{jobData.division}</p>
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold text-gray-700">Website:</p>
+                <a href={jobData.website} target="_blank" rel="noopener noreferrer" className="text-[#2d5fa6] hover:underline">
+                  {jobData.website}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column - Tags and Actions */}
+        <div>
+          <div className="bg-gray-50 p-6 rounded sticky top-8">
+            <h3 className="text-lg font-bold mb-4">TAGS</h3>
+            <div className="space-y-2 mb-6">
+              <span className="inline-block px-3 py-1 bg-[#333] text-white text-xs font-semibold rounded">
+                Deadline in 78 day(s)
+              </span>
+              <span className="inline-block px-3 py-1 bg-gray-400 text-white text-xs font-semibold rounded ml-2">
+                Viewed
+              </span>
+            </div>
+
+            <div className="space-y-3">
+              <button className="w-full px-4 py-2 bg-[#333] text-white font-semibold rounded hover:bg-[#222]">
+                I intend to apply
+              </button>
+              <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-100">
+                Shortlist
+              </button>
+              <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-100">
+                Not Interested
+              </button>
+              <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-100">
+                Print
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

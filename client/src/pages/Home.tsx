@@ -639,7 +639,7 @@ function MainContent() {
                   { id: 262090, title: "Product Manager (New Grad)", org: "Shopify", division: "Product", type: "Full Time", months: 12, openings: 5, location: "Toronto", deadline: "2026-04-25" },
                   { id: 262095, title: "UX Designer (Co-op)", org: "RBC", division: "Digital", type: "Co-op", months: 4, openings: 6, location: "Toronto", deadline: "2026-05-01" },
                   { id: 262097, title: "Business Analyst", org: "Deloitte", division: "Consulting", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-05-05" },
-                  { id: 262153, title: "Full-Stack Engineer (Co-op)", org: "Wealthsimple", division: "Engineering", type: "Co-op", months: 8, openings: 4, location: "Toronto", deadline: "2026-05-10" },
+                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", months: 12, openings: 3, location: "U.S.A", deadline: "2026-05-10" },
                   { id: 262155, title: "Marketing Coordinator", org: "Freshworks", division: "Marketing", type: "Part Time", months: 4, openings: 3, location: "Waterloo", deadline: "2026-05-12" },
                   { id: 262156, title: "DevOps Engineer", org: "Hootsuite", division: "Infrastructure", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-05-15" },
                   { id: 262157, title: "Business Development Intern", org: "Stripe", division: "Partnerships", type: "Internship", months: 4, openings: 7, location: "Toronto", deadline: "2026-05-18" },
@@ -650,7 +650,7 @@ function MainContent() {
                     <td className="px-4 py-2.5 text-gray-600 font-semibold">{job.id}</td>
                     <td className="px-4 py-2.5">
                       <div>
-                        <a href="#" className="text-[#2d5fa6] hover:underline font-semibold block mb-1.5">{job.title}</a>
+                        <a href={`/job/${job.id}`} className="text-[#2d5fa6] hover:underline font-semibold block mb-1.5">{job.title}</a>
                         <div className="flex gap-1.5 flex-wrap">
                           <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${
                             job.type === "Co-op" ? "bg-[#ff9800]" :
