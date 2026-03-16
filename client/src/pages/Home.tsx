@@ -419,11 +419,11 @@ function MainContent() {
         {/* Two-column layout with isolated halves */}
         <div className="grid grid-cols-2 gap-5 mb-3">
           {/* Left half: Search widget */}
-          <div className="border border-[#d0d5de] rounded-sm p-4 bg-white">
+          <div className="border border-[#d0d5de] rounded-sm p-4 bg-white flex flex-col">
             <label className="block text-[13px] font-semibold text-gray-700 mb-2.5">
-              Filter by Keyword Search
+              Keyword Search
             </label>
-            <div className="relative">
+            <div className="relative mb-4">
               <input
                 type="text"
                 value={keyword}
@@ -437,6 +437,34 @@ function MainContent() {
               >
                 <Search size={16} />
               </button>
+            </div>
+            
+            {/* Information Summary */}
+            <div className="text-[12px] text-gray-600 space-y-2 border-t border-[#e0e0e0] pt-3">
+              <div>
+                <button
+                  className="text-[#2d5fa6] font-semibold hover:underline text-left"
+                  onClick={() => toast.info("Non Endorsement: The University of Toronto does not endorse or recommend employers. Employment postings do not constitute endorsement. The University is not responsible for employer practices or off-campus employment conditions.")}
+                >
+                  Non Endorsement Statement →
+                </button>
+              </div>
+              <div>
+                <button
+                  className="text-[#2d5fa6] font-semibold hover:underline text-left"
+                  onClick={() => toast.info("Employer Participation: We welcome employers from all industries whose practices align with our Employer Guidelines. We encourage students to consider their interests and values when making career decisions.")}
+                >
+                  Employer Participation →
+                </button>
+              </div>
+              <div>
+                <button
+                  className="text-[#2d5fa6] font-semibold hover:underline text-left"
+                  onClick={() => toast.info("Job Fraud: Protect yourself by not sharing banking details, credit cards, SIN, or personal info early. Research organizations, learn about common scams, know your employment rights, and stay security savvy. Contact careerservices@utoronto.ca with concerns.")}
+                >
+                  Job Fraud Prevention →
+                </button>
+              </div>
             </div>
           </div>
 
