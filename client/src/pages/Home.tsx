@@ -96,9 +96,13 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Work Study", expandable: true },
       { label: "On-Campus Jobs", expandable: true },
       {
+        label: "Off-Campus Job Board",
+        expandable: false,
+        activeHighlight: "purple-sub",
+      },
+      {
         label: "OFF-CAMPUS JOBS",
         expandable: true,
-        activeHighlight: "purple-sub",
         children: [
           { label: "Off-Campus Jobs Documents" },
           { label: "Off-Campus Job Applications" },
@@ -393,11 +397,11 @@ function MainContent() {
   const [keyword, setKeyword] = useState("");
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [jobType, setJobType] = useState("");
-  const [location, setLocation] = useState("");
-  const [employer, setEmployer] = useState("");
-  const [division, setDivision] = useState("");
+  const [industry, setIndustry] = useState("");
   const [workTerm, setWorkTerm] = useState("");
-  const [positionType, setPositionType] = useState("");
+  const [employer, setEmployer] = useState("");
+  const [location, setLocation] = useState("");
+  const [salary, setSalary] = useState("");
 
   const inputClass =
     "border border-[#aaa] rounded-sm px-2.5 py-1.5 text-[13px] focus:outline-none focus:border-[#2d5fa6] focus:ring-1 focus:ring-[#2d5fa6] bg-white w-full";
@@ -449,18 +453,29 @@ function MainContent() {
                 <option value="full-time">Full Time</option>
                 <option value="part-time">Part Time</option>
                 <option value="contract">Contract</option>
-                <option value="internship">Internship / Co-op</option>
+                <option value="internship">Internship</option>
               </select>
             </div>
             <div>
-              <label className={labelClass}>Location</label>
+              <label className={labelClass}>Industry</label>
               <input
                 type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="City or Province"
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                placeholder="e.g., Technology, Finance"
                 className={inputClass}
               />
+            </div>
+            <div>
+              <label className={labelClass}>Work Term</label>
+              <select value={workTerm} onChange={(e) => setWorkTerm(e.target.value)} className={inputClass}>
+                <option value="">-- Any --</option>
+                <option value="4-months">4 Months</option>
+                <option value="8-months">8 Months</option>
+                <option value="12-months">12 Months</option>
+                <option value="permanent">Permanent</option>
+                <option value="part-time">Part Time</option>
+              </select>
             </div>
             <div>
               <label className={labelClass}>Employer</label>
@@ -473,32 +488,24 @@ function MainContent() {
               />
             </div>
             <div>
-              <label className={labelClass}>Division / Department</label>
+              <label className={labelClass}>Location</label>
               <input
                 type="text"
-                value={division}
-                onChange={(e) => setDivision(e.target.value)}
-                placeholder="Division"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="City or Province"
                 className={inputClass}
               />
             </div>
             <div>
-              <label className={labelClass}>Work Term</label>
-              <select value={workTerm} onChange={(e) => setWorkTerm(e.target.value)} className={inputClass}>
+              <label className={labelClass}>Salary (Hourly)</label>
+              <select value={salary} onChange={(e) => setSalary(e.target.value)} className={inputClass}>
                 <option value="">-- Any --</option>
-                <option value="fall">Fall</option>
-                <option value="winter">Winter</option>
-                <option value="spring">Spring</option>
-                <option value="summer">Summer</option>
-              </select>
-            </div>
-            <div>
-              <label className={labelClass}>Position Type</label>
-              <select value={positionType} onChange={(e) => setPositionType(e.target.value)} className={inputClass}>
-                <option value="">-- Any --</option>
-                <option value="new-grad">New Graduate</option>
-                <option value="experienced">Experienced</option>
-                <option value="student">Student</option>
+                <option value="15-20">$15 - $20/hr</option>
+                <option value="20-25">$20 - $25/hr</option>
+                <option value="25-30">$25 - $30/hr</option>
+                <option value="30-40">$30 - $40/hr</option>
+                <option value="40-plus">$40+/hr</option>
               </select>
             </div>
           </div>
