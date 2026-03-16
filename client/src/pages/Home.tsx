@@ -79,6 +79,7 @@ interface NavItem {
   expandable?: boolean;
   activeHighlight?: "purple" | "purple-sub";
   children?: NavItem[];
+  href?: string;
 }
 
 const SIDEBAR_ITEMS: NavItem[] = [
@@ -99,7 +100,7 @@ const SIDEBAR_ITEMS: NavItem[] = [
         label: "OFF-CAMPUS JOBS",
         expandable: true,
         children: [
-          { label: "Off-Campus Job Board", activeHighlight: "purple-sub" },
+          { label: "Off-Campus Job Board", activeHighlight: "purple-sub", href: "/" },
           { label: "Off-Campus Jobs Documents" },
           { label: "Off-Campus Job Applications" },
         ],
@@ -153,7 +154,9 @@ function SidebarNavItem({
           }
         }}
         onClick={() => {
-          if (item.expandable) {
+          if (item.href) {
+            window.location.href = item.href;
+          } else if (item.expandable) {
             onToggle(item.label);
           } else {
             toast.info("Feature coming soon");
