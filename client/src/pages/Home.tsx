@@ -519,13 +519,19 @@ function MainContent() {
             </div>
             <div>
               <label className={labelClass}>Industry</label>
-              <input
-                type="text"
-                value={industry}
-                onChange={(e) => setIndustry(e.target.value)}
-                placeholder="e.g., Technology, Finance"
-                className={inputClass}
-              />
+              <select value={industry} onChange={(e) => setIndustry(e.target.value)} className={inputClass}>
+                <option value="">-- Any --</option>
+                <option value="technology">Technology</option>
+                <option value="finance">Finance</option>
+                <option value="healthcare">Healthcare</option>
+                <option value="consulting">Consulting</option>
+                <option value="retail">Retail</option>
+                <option value="manufacturing">Manufacturing</option>
+                <option value="education">Education</option>
+                <option value="energy">Energy</option>
+                <option value="telecommunications">Telecommunications</option>
+                <option value="government">Government</option>
+              </select>
             </div>
             <div>
               <label className={labelClass}>Work Term</label>
