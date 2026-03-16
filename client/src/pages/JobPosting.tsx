@@ -317,9 +317,11 @@ export default function JobPosting() {
             </div>
             <h1 className="text-3xl font-bold mb-2">{jobData.id} - {jobData.title}</h1>
             <p className="text-lg text-gray-200">{jobData.organization} - {jobData.division}</p>
-            <button className="mt-4 px-4 py-2 bg-[#333] hover:bg-[#222] rounded text-white font-semibold">
-              I intend to apply
-            </button>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="px-3 py-1 bg-[#4CAF50] text-white rounded-full text-xs font-semibold">Full Time</span>
+              <span className="px-3 py-1 bg-[#2196F3] text-white rounded-full text-xs font-semibold">Computer, Information and Internet Services</span>
+              <span className="px-3 py-1 bg-[#FF9800] text-white rounded-full text-xs font-semibold">Incomplete</span>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
@@ -330,18 +332,7 @@ export default function JobPosting() {
           </div>
         </div>
 
-        {/* Status Section */}
-        <div className="border-b border-gray-200 px-8 py-6 max-w-6xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-700">Job Posting Status:</span>
-            <span className="px-3 py-1 bg-[#333] text-white rounded-full text-sm font-semibold">
-              {jobData.status}
-            </span>
-            </div>
-            <button className="text-gray-600 hover:text-gray-800">⋮</button>
-          </div>
-        </div>
+
 
         {/* Tabs Section */}
         <div className="border-b border-gray-200 px-8 max-w-6xl mx-auto">
