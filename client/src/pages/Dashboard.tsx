@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { toast } from "sonner";
+import { useLocation } from "wouter";
 
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
@@ -20,18 +21,12 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
     scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
 
   return (
-    <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
+    <div className="flex items-stretch h-[48px] bg-white border-b border-[#e0e0e0] flex-shrink-0">
       <button
-        className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
+        className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0"
         onClick={() => toast.info("Menu toggled")}
       >
-        <Menu size={18} />
-      </button>
-      <button
-        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0"
-        onClick={() => scroll("left")}
-      >
-        <ChevronLeft size={16} />
+        <ChevronLeft size={18} />
       </button>
       <div
         ref={scrollRef}
@@ -42,9 +37,9 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
           <button
             key={item}
             onClick={() => onSelect(item)}
-            className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0"
+            className="flex items-center px-4 text-[13px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0"
             style={{
-              color: active === item ? "#1a1a1a" : "#444",
+              color: active === item ? "#1a1a1a" : "#666",
               borderBottomColor: active === item ? "#2d5fa6" : "transparent",
             }}
           >
@@ -53,7 +48,7 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
         ))}
       </div>
       <button
-        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-l border-[#ccc]"
+        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0"
         onClick={() => scroll("right")}
       >
         <ChevronRight size={16} />
@@ -212,34 +207,10 @@ function Sidebar() {
   );
 }
 
-// ─── Dashboard Tabs ───────────────────────────────────────────────────────────
-
-const DASHBOARD_TABS = [
-  { label: "Dashboard", id: "dashboard" },
-  { label: "Experiential Record", id: "exp-record" },
-  { label: "My Documents", id: "documents" },
-  { label: "My Applications", id: "applications" },
-  { label: "My Interviews", id: "interviews" },
-  { label: "My Appointments", id: "appointments" },
-  { label: "My Events", id: "events" },
-  { label: "My Programs", id: "programs" },
-  { label: "...", id: "more" },
-];
-
-const DASHBOARD_SUBTABS = [
-  { label: "Overview", id: "overview" },
-  { label: "My Account", id: "account" },
-  { label: "My Messages", id: "messages" },
-  { label: "My Calendar", id: "calendar" },
-  { label: "My Schedule", id: "schedule" },
-  { label: "Payments and Invoices", id: "payments" },
-];
-
 // ─── Dashboard Content ────────────────────────────────────────────────────────
 
 function DashboardContent() {
-  const [activeTab, setActiveTab] = useState("dashboard");
-  const [activeSubtab, setActiveSubtab] = useState("overview");
+  const [activeTab, setActiveTab] = useState("OVERVIEW");
 
   const upcomingEvents = [
     {
@@ -266,103 +237,49 @@ function DashboardContent() {
       venue: "Experiential Learning Commons (ELC), Room 301, St. George Campus",
       status: "required",
     },
-    {
-      date: "Monday, March 23, 2026",
-      time: "05:00 PM ET - 08:00 PM ET",
-      title: "BIPOC Mentoring Circle for Biology Students",
-      location: "UTSC Academic Advising & Career Centre Events & Workshops",
-      venue: "CATALYST CENTRE",
-      status: "required",
-    },
-    {
-      date: "Tuesday, March 24, 2026",
-      time: "10:00 AM ET - 12:00 PM ET",
-      title: "Indigenous Career Educator - In-Person DROP IN Office Hours",
-      location: "St. George Career Exploration & Education Events & Workshops",
-      venue: "First Nations House - North Borden Building, 563 Spadina Ave, Toronto ON M5S 2J7",
-      status: "normal",
-    },
   ];
 
   return (
-    <div className="flex-1 overflow-y-auto bg-white">
-      {/* Welcome Header */}
-      <div className="bg-white border-b border-[#e0e0e0] px-8 py-6">
-        <h1 className="text-3xl font-bold text-gray-800">Welcome Ben Zhou</h1>
-      </div>
+    <div className="flex-1 overflow-y-auto bg-[#f5f5f5]">
+      {/* Top Nav */}
+      <TopNav active={activeTab} onSelect={setActiveTab} />
 
-      {/* Main Tabs */}
-      <div className="border-b border-[#e0e0e0] bg-white px-8">
-        <div className="flex gap-0 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
-          {DASHBOARD_TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className="px-4 py-3 text-[13px] font-semibold border-b-2 whitespace-nowrap transition-colors"
-              style={{
-                borderBottomColor: activeTab === tab.id ? "#ff9800" : "transparent",
-                color: activeTab === tab.id ? "#1a1a1a" : "#666",
-                backgroundColor: activeTab === tab.id ? "#fafafa" : "transparent",
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Subtabs */}
-      <div className="border-b border-[#e0e0e0] bg-white px-8">
-        <div className="flex gap-6">
-          {DASHBOARD_SUBTABS.map((subtab) => (
-            <button
-              key={subtab.id}
-              onClick={() => setActiveSubtab(subtab.id)}
-              className="px-2 py-3 text-[13px] font-semibold transition-colors"
-              style={{
-                color: activeSubtab === subtab.id ? "#2d5fa6" : "#666",
-                borderBottomColor: activeSubtab === subtab.id ? "#2d5fa6" : "transparent",
-              }}
-            >
-              {subtab.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Content Area */}
+      {/* Main Content */}
       <div className="px-8 py-8">
+        {/* Welcome Header */}
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">Welcome Ben Zhou</h1>
+
         <div className="grid grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="col-span-2">
+          {/* Main Content Area */}
+          <div className="col-span-2 space-y-8">
             {/* Scroll Message */}
-            <div className="text-center py-8 mb-8">
+            <div className="text-center py-6">
               <p className="text-[#2d5fa6] text-lg font-semibold italic">
                 ⬇ Scroll to see the latest dashboard messages ⬇
               </p>
             </div>
 
             {/* Promotional Section */}
-            <div className="bg-white border border-[#e0e0e0] rounded p-8 mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Get hired as a Tutor!</h2>
-              <div className="flex gap-8 items-center">
-                <div className="flex-1">
+            <div className="bg-white border border-[#e0e0e0] rounded-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Get hired as a Tutor!</h2>
+              <div className="flex gap-8 items-start">
+                <div className="flex-shrink-0 w-48">
                   <img
-                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop"
+                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=300&h=250&fit=crop"
                     alt="Become a Tutor"
-                    className="w-full rounded"
+                    className="w-full rounded-lg"
                   />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-3xl font-bold text-[#2d5fa6] mb-4">BECOME A TUTOR!</h3>
-                  <p className="text-gray-700 mb-4">
+                  <p className="text-gray-700 mb-3 leading-relaxed">
                     Help others, set your own hours and make extra money by joining the U of T Tutor Training Program.
                   </p>
-                  <p className="text-[#2d5fa6] font-semibold mb-6">uoft.me/UT3</p>
-                  <p className="text-gray-700 mb-6">
+                  <p className="text-[#2d5fa6] font-semibold mb-4">uoft.me/UT3</p>
+                  <p className="text-gray-700 mb-6 leading-relaxed">
                     Hey upper year students! Interested in becoming helping other students learn and to make some extra money on your own schedule?
                   </p>
-                  <button className="bg-[#2d5fa6] text-white px-6 py-3 rounded font-semibold hover:bg-[#1e4a7a] transition-colors">
+                  <button className="bg-[#2d5fa6] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#1e4a7a] transition-colors">
                     Join the UT3 program to become a U of T trained tutor!
                   </button>
                 </div>
@@ -370,30 +287,30 @@ function DashboardContent() {
             </div>
 
             {/* Your Schedule Section */}
-            <div className="bg-white border border-[#e0e0e0] rounded p-8">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Your Schedule</h3>
+            <div className="bg-white border border-[#e0e0e0] rounded-lg p-8">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Your Schedule</h3>
               <p className="text-gray-600">No upcoming schedules.</p>
             </div>
           </div>
 
           {/* Right Sidebar - Upcoming Events */}
           <div>
-            <div className="bg-white border border-[#e0e0e0] rounded p-6 sticky top-8">
-              <h3 className="text-lg font-bold text-gray-800 mb-6">Upcoming Events / Workshops</h3>
-              <div className="space-y-4">
+            <div className="bg-white border border-[#e0e0e0] rounded-lg p-6 sticky top-8">
+              <h3 className="text-lg font-bold text-gray-900 mb-6">Upcoming Events / Workshops</h3>
+              <div className="space-y-6">
                 {upcomingEvents.map((event, idx) => (
-                  <div key={idx} className="border-b border-[#e0e0e0] pb-4 last:border-b-0">
-                    <p className="text-[12px] font-semibold text-gray-600 mb-1">{event.date}</p>
+                  <div key={idx} className="pb-6 border-b border-[#e0e0e0] last:border-b-0 last:pb-0">
+                    <p className="text-[13px] font-semibold text-gray-700 mb-1">{event.date}</p>
                     <p className="text-[12px] text-gray-600 mb-2">{event.time}</p>
-                    <p className="text-[13px] font-semibold text-gray-800 mb-1">{event.title}</p>
+                    <p className="text-[14px] font-semibold text-gray-900 mb-2">{event.title}</p>
                     {event.status === "required" && (
-                      <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-[10px] font-semibold rounded mb-2">
+                      <span className="inline-block px-2 py-1 bg-green-100 text-green-800 text-[11px] font-semibold rounded mb-2">
                         Registration Required
                       </span>
                     )}
                     <p className="text-[12px] text-gray-600 mb-1">{event.location}</p>
                     <p className="text-[12px] text-gray-600 mb-3">{event.venue}</p>
-                    <button className="w-full bg-[#2d5fa6] text-white py-2 rounded text-[12px] font-semibold hover:bg-[#1e4a7a] transition-colors">
+                    <button className="w-full bg-[#2d5fa6] text-white py-2 rounded-lg text-[13px] font-semibold hover:bg-[#1e4a7a] transition-colors">
                       View
                     </button>
                   </div>
@@ -410,13 +327,10 @@ function DashboardContent() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Dashboard() {
-  const [activeNav, setActiveNav] = useState("OVERVIEW");
-
   return (
-    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
+    <div className="flex h-screen overflow-hidden bg-white">
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <TopNav active={activeNav} onSelect={setActiveNav} />
         <DashboardContent />
       </div>
     </div>

@@ -83,7 +83,7 @@ interface NavItem {
 }
 
 const SIDEBAR_ITEMS: NavItem[] = [
-  { label: "Dashboard" },
+  { label: "Dashboard", href: "/dashboard" },
   { label: "Appointments", expandable: true },
   { label: "Co-Curricular Record", expandable: true },
   { label: "Events & Workshops", expandable: true },
