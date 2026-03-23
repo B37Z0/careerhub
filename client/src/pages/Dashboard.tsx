@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import { ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 import { toast } from "sonner";
-import { useLocation } from "wouter";
 
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
@@ -24,7 +23,7 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
     <div className="flex items-stretch h-[48px] bg-white border-b border-[#e0e0e0] flex-shrink-0">
       <button
         className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0"
-        onClick={() => toast.info("Menu toggled")}
+        onClick={() => scroll("left")}
       >
         <ChevronLeft size={18} />
       </button>
@@ -207,10 +206,35 @@ function Sidebar() {
   );
 }
 
+// ─── Secondary Tabs ───────────────────────────────────────────────────────────
+
+const SECONDARY_TABS = [
+  { label: "Dashboard", id: "dashboard" },
+  { label: "Experiential Record", id: "exp-record" },
+  { label: "My Documents", id: "documents" },
+  { label: "My Applications", id: "applications" },
+  { label: "My Interviews", id: "interviews" },
+  { label: "My Appointments", id: "appointments" },
+  { label: "My Events", id: "events" },
+  { label: "My Programs", id: "programs" },
+  { label: "...", id: "more" },
+];
+
+const TERTIARY_TABS = [
+  { label: "Overview", id: "overview" },
+  { label: "My Account", id: "account" },
+  { label: "My Messages", id: "messages" },
+  { label: "My Calendar", id: "calendar" },
+  { label: "My Schedule", id: "schedule" },
+  { label: "Payments and Invoices", id: "payments" },
+];
+
 // ─── Dashboard Content ────────────────────────────────────────────────────────
 
 function DashboardContent() {
-  const [activeTab, setActiveTab] = useState("OVERVIEW");
+  const [activeTopTab, setActiveTopTab] = useState("OVERVIEW");
+  const [activeSecondaryTab, setActiveSecondaryTab] = useState("dashboard");
+  const [activeTertiaryTab, setActiveTertiaryTab] = useState("overview");
 
   const upcomingEvents = [
     {
@@ -242,7 +266,45 @@ function DashboardContent() {
   return (
     <div className="flex-1 overflow-y-auto bg-[#f5f5f5]">
       {/* Top Nav */}
-      <TopNav active={activeTab} onSelect={setActiveTab} />
+      <TopNav active={activeTopTab} onSelect={setActiveTopTab} />
+
+      {/* Secondary Tabs */}
+      <div className="border-b border-[#e0e0e0] bg-white px-0">
+        <div className="flex gap-0 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+          {SECONDARY_TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveSecondaryTab(tab.id)}
+              className="px-4 py-3 text-[13px] font-semibold border-b-2 whitespace-nowrap transition-colors"
+              style={{
+                borderBottomColor: activeSecondaryTab === tab.id ? "#2d5fa6" : "transparent",
+                color: activeSecondaryTab === tab.id ? "#2d5fa6" : "#666",
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tertiary Tabs */}
+      <div className="border-b border-[#e0e0e0] bg-white px-0">
+        <div className="flex gap-0 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+          {TERTIARY_TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTertiaryTab(tab.id)}
+              className="px-4 py-3 text-[13px] font-semibold border-b-2 whitespace-nowrap transition-colors"
+              style={{
+                borderBottomColor: activeTertiaryTab === tab.id ? "#2d5fa6" : "transparent",
+                color: activeTertiaryTab === tab.id ? "#2d5fa6" : "#666",
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="px-8 py-8">
