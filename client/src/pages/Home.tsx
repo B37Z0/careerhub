@@ -432,11 +432,7 @@ function MainContent() {
   const labelClass = "block text-[12px] font-semibold text-gray-600 mb-1";
 
   return (
-    <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-      <TopNav active={activeNav} onSelect={setActiveNav} />
-      <Breadcrumb />
-
-      <div className="flex-1 overflow-y-auto bg-white p-5">
+    <div className="flex-1 overflow-y-auto bg-white p-5">
         {/* Title */}
         <h2 className="text-[16px] font-bold text-gray-800 mb-4">Off-Campus Job Board</h2>
 
@@ -702,7 +698,6 @@ function MainContent() {
             </table>
           </div>
         </div>
-      </div>
     </div>
   );
 }
@@ -713,7 +708,11 @@ export default function Home() {
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
       <Sidebar />
-      <MainContent />
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <TopNav active="MY APPLICATIONS" onSelect={() => {}} />
+        <Breadcrumb />
+        <MainContent />
+      </div>
     </div>
   );
 }
