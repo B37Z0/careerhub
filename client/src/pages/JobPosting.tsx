@@ -1,9 +1,26 @@
 import { FileText, ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
-import { useRoute } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
 
-// ─── Top Navigation ───────────────────────────────────────────────────────────
+// ─── Breadcrumb ──────────────────────────────────────────────────────────────
+
+function Breadcrumb() {
+  return (
+    <div
+      className="flex items-center gap-2 px-5 py-3 text-[13px] bg-[#f5f5f5] border-b border-[#d0d5de] flex-shrink-0"
+      style={{ height: 40 }}
+    >
+      <button className="text-[#2d5fa6] hover:underline font-semibold">Jobs & Recruitment</button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold">Off Campus Jobs</button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold">Off Campus Job Board</button>
+    </div>
+  );
+}
+
+// ─── Top Navigation ─────────────────────────────────────────────────────────────
 
 const TOP_NAV_ITEMS = [
   "OVERVIEW",
@@ -145,7 +162,9 @@ function SidebarNavItem({
           }
         }}
         onClick={() => {
-          if (item.expandable) {
+          if (item.label === "Dashboard") {
+            window.location.href = "/dashboard";
+          } else if (item.expandable) {
             onToggle(item.label);
           } else {
             toast.info("Feature coming soon");
@@ -294,6 +313,7 @@ export default function JobPosting() {
     <div className="flex flex-col h-screen bg-white">
       {/* Top Navigation */}
       <TopNav active={activeNav} onSelect={setActiveNav} />
+      <Breadcrumb />
 
       {/* Main Content with Sidebar */}
       <div className="flex flex-1 overflow-hidden">

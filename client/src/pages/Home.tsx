@@ -8,6 +8,7 @@
  */
 
 import { useState, useRef } from "react";
+import { useLocation } from "wouter";
 import { toast } from "sonner";
 import { ChevronDown, ChevronLeft, ChevronRight, Menu, Info, Search } from "lucide-react";
 
@@ -153,7 +154,9 @@ function SidebarNavItem({
           }
         }}
         onClick={() => {
-          if (item.expandable) {
+          if (item.label === "Dashboard") {
+            window.location.href = "/dashboard";
+          } else if (item.expandable) {
             onToggle(item.label);
           } else {
             toast.info("Feature coming soon");
@@ -391,6 +394,23 @@ function ListManagementOptions() {
   );
 }
 
+// ─── Breadcrumb ──────────────────────────────────────────────────────────────
+
+function Breadcrumb() {
+  return (
+    <div
+      className="flex items-center gap-2 px-5 py-3 text-[13px] bg-[#f5f5f5] border-b border-[#d0d5de] flex-shrink-0"
+      style={{ height: 40 }}
+    >
+      <button className="text-[#2d5fa6] hover:underline font-semibold">Jobs & Recruitment</button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold">Off Campus Jobs</button>
+      <span className="text-gray-500">›</span>
+      <button className="text-[#2d5fa6] hover:underline font-semibold">Off Campus Job Board</button>
+    </div>
+  );
+}
+
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
 function MainContent() {
@@ -411,6 +431,7 @@ function MainContent() {
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
       <TopNav active={activeNav} onSelect={setActiveNav} />
+      <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
         {/* Title */}
@@ -686,6 +707,8 @@ function MainContent() {
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  const [, navigate] = useLocation();
+  
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
       <Sidebar />
