@@ -87,14 +87,14 @@ const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Events & Workshops", expandable: true },
   { label: "Experiential Learning" },
   {
-    label: "JOBS & RECRUITMENT",
+    label: "Jobs & Recruitment",
     expandable: true,
     children: [
       { label: "Job Search Overview" },
       { label: "Work Study", expandable: true },
       { label: "On-Campus Jobs", expandable: true },
       {
-        label: "OFF-CAMPUS JOBS",
+        label: "Off-Campus Jobs",
         expandable: true,
         children: [
           { label: "Off-Campus Job Board" },
@@ -106,6 +106,10 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Recruitment", expandable: true },
     ],
   },
+  { label: "Programs", expandable: true },
+  { label: "Student Resources", expandable: true },
+  { label: "St. George Online Store" },
+  { label: "Logout" },
 ];
 
 function SidebarNavItem({
@@ -120,7 +124,7 @@ function SidebarNavItem({
   onToggle: (key: string) => void;
 }) {
   const isExpanded = expanded[item.label];
-  const isAllCaps = item.label === item.label.toUpperCase() && item.label.replace(/\s/g, "").length > 4;
+  const isAllCaps = false;
   const isPurple = item.activeHighlight === "purple";
   const isPurpleSub = item.activeHighlight === "purple-sub";
 
@@ -201,7 +205,7 @@ function SidebarNavItem({
 
 function Sidebar() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({
-    "JOBS & RECRUITMENT": false,
+    "Jobs & Recruitment": false,
   });
 
   const toggle = (key: string) =>
