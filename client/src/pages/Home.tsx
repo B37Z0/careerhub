@@ -245,10 +245,10 @@ function Sidebar() {
 // ─── Quick Searches ───────────────────────────────────────────────────────────
 
 const QUICK_SEARCHES = [
-  { count: 12, label: "Applied To" },
-  { count: 5, label: "Shortlist" },
-  { count: 34, label: "New Postings" },
-  { count: 8, label: "Deadlines Soon" },
+  { count: 12, label: "Applied To", color: "#2563eb" },
+  { count: 5, label: "Shortlist", color: "#dc2626" },
+  { count: 34, label: "New Postings", color: "#16a34a" },
+  { count: 8, label: "Deadlines Soon", color: "#ea580c" },
 ];
 
 const SAVED_FILTERS = [
@@ -283,11 +283,11 @@ function QuickSearches() {
             style={{ borderTop: i > 0 ? "1px solid #e8eaed" : undefined }}
             onClick={() => toast.info(`Searching: ${item.label}`)}
           >
-            {/* Teal badge */}
+            {/* Colored badge */}
             <span
               className="flex-shrink-0 flex items-center justify-center text-white text-[12px] font-semibold rounded-full"
               style={{
-                backgroundColor: "#3a8fa8",
+                backgroundColor: (item as any).color || "#3a8fa8",
                 minWidth: 30,
                 height: 30,
                 fontSize: item.count >= 100 ? "11px" : "12px",
