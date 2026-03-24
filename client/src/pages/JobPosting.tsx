@@ -13,9 +13,9 @@ function Breadcrumb() {
     >
       <button className="text-[#2d5fa6] hover:underline font-semibold">Jobs & Recruitment</button>
       <span className="text-gray-500">›</span>
-      <button className="text-[#2d5fa6] hover:underline font-semibold">Off Campus Jobs</button>
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>Off Campus Jobs</button>
       <span className="text-gray-500">›</span>
-      <button className="text-[#2d5fa6] hover:underline font-semibold">Off Campus Job Board</button>
+      <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>Off Campus Job Board</button>
     </div>
   );
 }

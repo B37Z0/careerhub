@@ -8,7 +8,7 @@
 
 import { useState, useRef } from "react";
 import { toast } from "sonner";
-import { ChevronDown, ChevronLeft, ChevronRight, Menu, Info } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
 
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
@@ -155,9 +155,7 @@ function SidebarNavItem({
           }
         }}
         onClick={() => {
-          if (item.label === "Off-Campus Job Board") {
-            window.location.href = "/";
-          } else if (item.expandable) {
+          if (item.expandable) {
             onToggle(item.label);
           } else {
             toast.info("Feature coming soon");
@@ -260,13 +258,79 @@ function Breadcrumb() {
 
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
+const EVENTS = [
+  {
+    date: "Tuesday, March 24, 2026",
+    time: "10:00 AM ET - 04:00 PM ET",
+    title: "Peer Resume Review",
+    day: "Tuesday",
+    location: "UTM Career Centre",
+    category: "Events & Workshops",
+    organizer: "Career Corner in Student Services",
+    host: "Hub Davis",
+  },
+  {
+    date: "Tuesday, March 24, 2026",
+    time: "10:00 AM ET - 04:00 PM ET",
+    title: "Career Talks: Chat with a Career Assistant (Drop In)",
+    day: "Tuesday",
+    location: "UTM Career Centre",
+    category: "Events & Workshops",
+    organizer: "Career Corner in Student Services",
+    host: "Hub Davis",
+  },
+  {
+    date: "Tuesday, March 24, 2026",
+    time: "11:00 AM ET - 12:30 PM ET",
+    title: "Career Anxiety & Decision Paralysis - Session 3: Purpose, Meaning, and Identity (Without Pressure)",
+    day: "Tuesday",
+    location: "UTM Career Centre",
+    category: "Events & Workshops",
+    organizer: "Career Corner in Student Services",
+    host: "Hub Davis",
+    tag: "Registration Required",
+    code: "DV2224",
+  },
+  {
+    date: "Tuesday, March 24, 2026",
+    time: "12:00 PM ET - 02:00 PM ET",
+    title: "Resume & Cover Letter Review",
+    day: "Tuesday",
+    location: "UTM Career Centre",
+    category: "Events & Workshops",
+    organizer: "Career Corner in Student Services",
+    host: "Hub Davis",
+  },
+  {
+    date: "Wednesday, March 25, 2026",
+    time: "02:00 PM ET - 03:30 PM ET",
+    title: "LinkedIn Workshop: Building Your Professional Brand",
+    day: "Wednesday",
+    location: "Online",
+    category: "Events & Workshops",
+    organizer: "Career Corner in Student Services",
+    host: "Sarah Chen",
+  },
+  {
+    date: "Thursday, March 26, 2026",
+    time: "01:00 PM ET - 02:30 PM ET",
+    title: "Interview Preparation: Behavioral Questions",
+    day: "Thursday",
+    location: "UTM Career Centre",
+    category: "Events & Workshops",
+    organizer: "Career Corner in Student Services",
+    host: "Michael Torres",
+    tag: "Registration Required",
+  },
+];
+
 function MainContent() {
   const [activeNav, setActiveNav] = useState("OVERVIEW");
-  const [activeSecondary, setActiveSecondary] = useState("Dashboard");
-  const [activeTertiary, setActiveTertiary] = useState("Overview");
+  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [activeSubTab, setActiveSubTab] = useState("Overview");
 
-  const secondaryTabs = ["Dashboard", "Experiential Record", "My Documents"];
-  const tertiaryTabs = ["Overview", "My Account", "My Messages"];
+  const tabs = ["Dashboard", "Experiential Record", "My Documents", "My Applications", "My Interviews", "My Appointments", "My Events", "My Programs", "..."];
+  const subTabs = ["Overview", "My Account", "My Messages", "My Calendar", "My Schedule", "Payments and Invoices"];
 
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
@@ -274,22 +338,38 @@ function MainContent() {
       <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
-        {/* Welcome Section */}
-        <div className="mb-6">
-          <h2 className="text-[14px] font-semibold text-gray-600 mb-2">Welcome</h2>
-          <h1 className="text-[24px] font-bold text-gray-900">Ben Zhou</h1>
+        {/* Welcome */}
+        <h1 className="text-[28px] font-bold text-gray-900 mb-6">Welcome Ben Zhou</h1>
+
+        {/* Primary Tabs */}
+        <div className="flex gap-0 mb-6 border-b border-gray-300 pb-0 overflow-x-auto">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="px-4 py-3 text-[14px] font-semibold whitespace-nowrap border-b-4 transition-colors"
+              style={{
+                color: activeTab === tab ? "#333" : "#666",
+                borderBottomColor: activeTab === tab ? "#ff9800" : "transparent",
+                backgroundColor: activeTab === tab ? "#fff" : "#f5f5f5",
+              }}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
 
         {/* Secondary Tabs */}
-        <div className="flex gap-6 mb-6 border-b border-gray-200 pb-0">
-          {secondaryTabs.map((tab) => (
+        <div className="flex gap-4 mb-6 pb-3">
+          {subTabs.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveSecondary(tab)}
-              className="pb-3 text-[13px] font-semibold transition-colors"
+              onClick={() => setActiveSubTab(tab)}
+              className="px-3 py-2 text-[13px] font-semibold transition-colors"
               style={{
-                color: activeSecondary === tab ? "#2d5fa6" : "#666",
-                borderBottom: activeSecondary === tab ? "3px solid #2d5fa6" : "none",
+                color: activeSubTab === tab ? "#fff" : "#2d5fa6",
+                backgroundColor: activeSubTab === tab ? "#000" : "transparent",
+                borderRadius: activeSubTab === tab ? "4px" : "0px",
               }}
             >
               {tab}
@@ -297,72 +377,66 @@ function MainContent() {
           ))}
         </div>
 
-        {/* Tertiary Tabs */}
-        <div className="flex gap-6 mb-6 border-b border-gray-200 pb-0">
-          {tertiaryTabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTertiary(tab)}
-              className="pb-3 text-[12px] font-semibold transition-colors"
-              style={{
-                color: activeTertiary === tab ? "#2d5fa6" : "#999",
-                borderBottom: activeTertiary === tab ? "2px solid #2d5fa6" : "none",
-              }}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        {/* Content Sections */}
+        {/* Content Grid */}
         <div className="grid grid-cols-3 gap-6">
           {/* Left Column - Main Content */}
           <div className="col-span-2">
-            {/* Promotional Section */}
-            <div className="border border-[#d0d5de] rounded-sm overflow-hidden bg-white mb-6">
-              <div className="flex">
-                <div className="flex-1 p-6">
-                  <h3 className="text-[16px] font-bold text-gray-900 mb-2">Get hired as a Tutor</h3>
-                  <p className="text-[13px] text-gray-600 mb-4">
-                    Join our network of experienced tutors and help students succeed while earning competitive rates.
-                  </p>
-                  <button className="px-4 py-2 bg-[#2d5fa6] text-white text-[12px] font-semibold rounded hover:bg-[#1e4a8a] transition-colors">
-                    Learn More
-                  </button>
-                </div>
-                <div className="w-40 h-40 bg-gradient-to-br from-[#e0e7ff] to-[#c7d2fe] flex-shrink-0"></div>
+            {/* Dashboard Messages Section */}
+            <div className="mb-8 p-8 bg-gray-50 rounded border border-gray-200 text-center">
+              <div className="flex justify-center mb-4">
+                <div className="text-[48px]">⋁</div>
               </div>
+              <h2 className="text-[24px] font-bold text-[#1e3a5f] mb-2 italic">Scroll to see the latest dashboard messages</h2>
+              <div className="flex justify-center text-[48px] text-[#1e3a5f]">⋁</div>
             </div>
 
-            {/* Your Schedule Section */}
-            <div className="border border-[#d0d5de] rounded-sm p-6 bg-white">
-              <h3 className="text-[14px] font-bold text-gray-900 mb-4">Your Schedule</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded">
-                  <div className="w-2 h-2 bg-[#2d5fa6] rounded-full"></div>
-                  <span className="text-[13px] text-gray-700">No events scheduled for today</span>
+            {/* Get Hired as Tutor Section */}
+            <div className="border border-gray-200 rounded overflow-hidden bg-white">
+              <div className="flex">
+                <div className="flex-1 p-8">
+                  <h3 className="text-[20px] font-bold text-gray-900 mb-4">Get hired as a Tutor!</h3>
+                  <div className="bg-gray-100 p-4 rounded mb-4 h-40 flex items-center justify-center text-gray-400">
+                    [Tutor Program Image]
+                  </div>
+                  <p className="text-[13px] text-gray-600 mb-4">
+                    Help others, set your own hours and make extra money by joining the U of T Tutor Training Program.
+                  </p>
+                  <p className="text-[13px] font-semibold text-[#2d5fa6] mb-4">uoft.me/UT3</p>
+                  <button className="px-4 py-2 bg-[#2d5fa6] text-white text-[12px] font-semibold rounded hover:bg-[#1e4a8a]">
+                    Learn More
+                  </button>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Sidebar */}
+          {/* Right Column - Upcoming Events */}
           <div>
-            <div className="border border-[#d0d5de] rounded-sm p-6 bg-white sticky top-5">
+            <div className="border border-gray-200 rounded p-6 bg-white sticky top-5">
               <h3 className="text-[14px] font-bold text-gray-900 mb-4">Upcoming Events / Workshops</h3>
-              <div className="space-y-3">
-                <div className="pb-3 border-b border-gray-200">
-                  <p className="text-[12px] font-semibold text-gray-700">Career Fair 2026</p>
-                  <p className="text-[11px] text-gray-500">March 28, 2026</p>
-                </div>
-                <div className="pb-3 border-b border-gray-200">
-                  <p className="text-[12px] font-semibold text-gray-700">Resume Workshop</p>
-                  <p className="text-[11px] text-gray-500">April 5, 2026</p>
-                </div>
-                <div>
-                  <p className="text-[12px] font-semibold text-gray-700">Interview Prep Session</p>
-                  <p className="text-[11px] text-gray-500">April 12, 2026</p>
-                </div>
+              <div className="space-y-4 max-h-[800px] overflow-y-auto">
+                {EVENTS.map((event, idx) => (
+                  <div key={idx} className="pb-4 border-b border-gray-200 last:border-b-0">
+                    <p className="text-[12px] font-semibold text-gray-700 mb-1">{event.date}</p>
+                    <p className="text-[12px] text-gray-600 mb-2">{event.time}</p>
+                    <p className="text-[13px] font-semibold text-gray-900 mb-2">{event.title}</p>
+                    <p className="text-[11px] text-gray-600 mb-1">{event.location}</p>
+                    <p className="text-[11px] text-gray-600 mb-2">{event.category}</p>
+                    <p className="text-[11px] text-gray-600 mb-2">{event.organizer}</p>
+                    <p className="text-[11px] text-gray-600 mb-2">{event.host}</p>
+                    {event.tag && (
+                      <>
+                        <span className="inline-block px-2 py-1 bg-[#4caf50] text-white text-[10px] font-semibold rounded mb-2">
+                          {event.tag}
+                        </span>
+                        {event.code && <p className="text-[11px] text-gray-600">{event.code}</p>}
+                      </>
+                    )}
+                    <button className="mt-2 px-4 py-1.5 bg-[#2d5fa6] text-white text-[11px] font-semibold rounded hover:bg-[#1e4a8a]">
+                      View
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
