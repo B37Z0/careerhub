@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import JobPosting from "./pages/JobPosting";
 import Dashboard from "./pages/Dashboard";
+import Placeholder from "./pages/Placeholder";
 
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/job/:id"} component={JobPosting} />
       <Route path={"/dashboard"} component={Dashboard} />
+      <Route path={"/placeholder"} component={Placeholder} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

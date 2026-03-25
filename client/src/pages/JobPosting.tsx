@@ -92,10 +92,10 @@ interface NavItem {
 
 const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Dashboard" },
-  { label: "Appointments", expandable: true },
-  { label: "Co-Curricular Record", expandable: true },
-  { label: "Events & Workshops", expandable: true },
-  { label: "Experiential Learning" },
+  { label: "Appointments", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Co-Curricular Record", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Events & Workshops", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Experiential Learning", expandable: true, children: [{ label: "Dummy Tab" }] },
   {
     label: "Jobs & Recruitment",
     expandable: true,
@@ -117,8 +117,8 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Recruitment", expandable: true },
     ],
   },
-  { label: "Programs", expandable: true },
-  { label: "Student Resources", expandable: true },
+  { label: "Programs", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Student Resources", expandable: true, children: [{ label: "Dummy Tab" }] },
   { label: "St. George Online Store" },
   { label: "Logout" },
 ];
@@ -172,8 +172,10 @@ function SidebarNavItem({
             window.location.href = "/";
           } else if (item.expandable) {
             onToggle(item.label);
+          } else if (item.label === "Dummy Tab") {
+            window.location.href = "/placeholder";
           } else {
-            toast.info("Feature coming soon");
+            window.location.href = "/placeholder";
           }
         }}
       >
@@ -263,6 +265,10 @@ export default function JobPosting() {
   const [match, params] = useRoute("/job/:id");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
+  
+  const handleNavSelect = (item: string) => {
+    window.location.href = "/placeholder";
+  };
 
   if (!match) return null;
 
@@ -322,7 +328,7 @@ export default function JobPosting() {
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navigation */}
-        <TopNav active={activeNav} onSelect={setActiveNav} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <TopNav active={activeNav} onSelect={handleNavSelect} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <Breadcrumb />
 
         {/* Content Area */}

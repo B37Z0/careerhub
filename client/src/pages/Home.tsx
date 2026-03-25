@@ -84,10 +84,10 @@ interface NavItem {
 
 const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Dashboard" },
-  { label: "Appointments", expandable: true },
-  { label: "Co-Curricular Record", expandable: true },
-  { label: "Events & Workshops", expandable: true },
-  { label: "Experiential Learning" },
+  { label: "Appointments", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Co-Curricular Record", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Events & Workshops", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Experiential Learning", expandable: true, children: [{ label: "Dummy Tab" }] },
   {
     label: "Jobs & Recruitment",
     expandable: true,
@@ -109,8 +109,8 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Recruitment", expandable: true },
     ],
   },
-  { label: "Programs", expandable: true },
-  { label: "Student Resources", expandable: true },
+  { label: "Programs", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Student Resources", expandable: true, children: [{ label: "Dummy Tab" }] },
   { label: "St. George Online Store" },
   { label: "Logout" },
 ];
@@ -164,8 +164,10 @@ function SidebarNavItem({
             window.location.href = "/";
           } else if (item.expandable) {
             onToggle(item.label);
+          } else if (item.label === "Dummy Tab") {
+            window.location.href = "/placeholder";
           } else {
-            toast.info("Feature coming soon");
+            window.location.href = "/placeholder";
           }
         }}
       >
@@ -420,6 +422,9 @@ function Breadcrumb() {
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
 function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
+  const handleNavSelect = (item: string) => {
+    window.location.href = "/placeholder";
+  };
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
   const [keyword, setKeyword] = useState("");
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
@@ -436,7 +441,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
 
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-      <TopNav active={activeNav} onSelect={setActiveNav} onMenuToggle={onMenuToggle} />
+      <TopNav active={activeNav} onSelect={handleNavSelect} onMenuToggle={onMenuToggle} />
       <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">

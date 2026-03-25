@@ -82,10 +82,10 @@ interface NavItem {
 
 const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Dashboard", activeHighlight: "purple" },
-  { label: "Appointments", expandable: true },
-  { label: "Co-Curricular Record", expandable: true },
-  { label: "Events & Workshops", expandable: true },
-  { label: "Experiential Learning" },
+  { label: "Appointments", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Co-Curricular Record", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Events & Workshops", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Experiential Learning", expandable: true, children: [{ label: "Dummy Tab" }] },
   {
     label: "Jobs & Recruitment",
     expandable: true,
@@ -106,8 +106,8 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Recruitment", expandable: true },
     ],
   },
-  { label: "Programs", expandable: true },
-  { label: "Student Resources", expandable: true },
+  { label: "Programs", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Student Resources", expandable: true, children: [{ label: "Dummy Tab" }] },
   { label: "St. George Online Store" },
   { label: "Logout" },
 ];
@@ -159,8 +159,10 @@ function SidebarNavItem({
             handleOffCampusJobBoardClick();
           } else if (item.expandable) {
             onToggle(item.label);
+          } else if (item.label === "Dummy Tab") {
+            window.location.href = "/placeholder";
           } else {
-            toast.info("Feature coming soon");
+            window.location.href = "/placeholder";
           }
         }}
       >
@@ -354,7 +356,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
           {tabs.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => tab === "Dashboard" ? setActiveTab(tab) : window.location.href = "/placeholder"}
               className="px-2 py-2 text-[11px] font-semibold whitespace-nowrap border-b-4 transition-colors flex-shrink-0"
               style={{
                 color: activeTab === tab ? "#333" : "#666",
@@ -372,7 +374,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
           {subTabs.map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveSubTab(tab)}
+              onClick={() => tab === "Overview" ? setActiveSubTab(tab) : window.location.href = "/placeholder"}
               className="px-3 py-2 text-[13px] font-semibold transition-colors"
               style={{
                 color: activeSubTab === tab ? "#fff" : "#2d5fa6",
