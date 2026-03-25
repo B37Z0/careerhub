@@ -1,132 +1,282 @@
-import { Menu } from "lucide-react";
-import { useState } from "react";
+import { Menu, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef } from "react";
 
-function Placeholder() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+// ─── Top Navigation ───────────────────────────────────────────────────────────
 
-  const SidebarNavItem = ({ label, onClick }: { label: string; onClick?: () => void }) => (
-    <button
-      onClick={onClick}
-      className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm"
-    >
-      {label}
-    </button>
-  );
+const TOP_NAV_ITEMS = [
+  "OVERVIEW",
+  "EXPERIENTIAL RECORD",
+  "MY DOCUMENTS",
+  "MY APPLICATIONS",
+  "MY INTERVIEWS",
+  "MY APPOINTMENTS",
+  "MY EVENTS",
+];
 
-  const TopNav = ({ onMenuToggle }: { onMenuToggle: () => void }) => (
-    <div className="bg-[#2d3e50] text-white px-6 py-4 flex items-center justify-between">
-      <div className="flex items-center gap-4">
-        <button
-          onClick={onMenuToggle}
-          className="p-2 hover:bg-[#3a4a5a] rounded transition-colors"
-        >
-          <Menu size={24} />
-        </button>
-        <h1 className="text-xl font-bold">Ben Zhou</h1>
-      </div>
-    </div>
-  );
-
-  const Breadcrumb = () => (
-    <div className="bg-white border-b border-gray-200 px-6 py-3 flex items-center gap-2 text-sm text-gray-600">
-      <span className="text-[#2d5fa6] hover:underline cursor-pointer">Jobs & Recruitment</span>
-      <span>›</span>
-      <span>Feature Coming Soon</span>
-    </div>
-  );
+function TopNav({ active, onSelect, onMenuToggle }: { active: string; onSelect: (v: string) => void; onMenuToggle: () => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scroll = (dir: "left" | "right") =>
+    scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      {sidebarOpen && (
-        <div className="w-64 bg-[#3d3d5c] text-white flex flex-col overflow-y-auto">
-          <div className="p-4 border-b border-[#4a4a6a]">
-            <h2 className="font-bold text-lg">Ben Zhou</h2>
-          </div>
+    <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
+      <button
+        className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
+        onClick={onMenuToggle}
+      >
+        <Menu size={18} />
+      </button>
+      <button
+        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0"
+        onClick={() => scroll("left")}
+      >
+        <ChevronLeft size={16} />
+      </button>
+      <div
+        ref={scrollRef}
+        className="flex items-stretch overflow-x-hidden flex-1"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {TOP_NAV_ITEMS.map((item) => (
+          <button
+            key={item}
+            onClick={() => onSelect(item)}
+            className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0"
+            style={{
+              color: active === item ? "#1a1a1a" : "#444",
+              borderBottomColor: active === item ? "#2d5fa6" : "transparent",
+            }}
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+      <button
+        className="px-2 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-l border-[#ccc]"
+        onClick={() => scroll("right")}
+      >
+        <ChevronRight size={16} />
+      </button>
+    </div>
+  );
+}
 
-          <div className="flex-1 overflow-y-auto">
-            <div className="space-y-1 p-2">
-              <button
-                onClick={() => window.location.href = "/"}
-                className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm"
-              >
-                Dashboard
-              </button>
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
 
-              {/* Appointments */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Appointments
-                </button>
-                <SidebarNavItem label="Dummy Tab" onClick={() => {}} />
-              </div>
+interface NavItem {
+  label: string;
+  depth?: number;
+  expandable?: boolean;
+  activeHighlight?: "purple" | "purple-sub";
+  children?: NavItem[];
+}
 
-              {/* Co-Curricular Record */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Co-Curricular Record
-                </button>
-                <SidebarNavItem label="Dummy Tab" onClick={() => {}} />
-              </div>
+const SIDEBAR_ITEMS: NavItem[] = [
+  { label: "Dashboard" },
+  { label: "Appointments", expandable: true, children: [{ label: "My Appointments" }] },
+  { label: "Co-Curricular Record", expandable: true, children: [{ label: "My Co-Curricular Record" }] },
+  { label: "Events & Workshops", expandable: true, children: [{ label: "My Events" }] },
+  { label: "Experiential Learning", expandable: true, children: [{ label: "My Experiential Learning" }] },
+  {
+    label: "Jobs & Recruitment",
+    expandable: true,
+    children: [
+      { label: "Job Search Overview" },
+      { label: "Work Study", expandable: true },
+      { label: "On-Campus Jobs", expandable: true },
+      {
+        label: "Off-Campus Jobs",
+        expandable: true,
+        children: [
+          { label: "Off-Campus Job Board" },
+          { label: "Off-Campus Jobs Documents" },
+          { label: "Off-Campus Job Applications" },
+        ],
+      },
+      { label: "Casual Job Board", expandable: true },
+      { label: "Recruitment", expandable: true },
+    ],
+  },
+  { label: "Programs", expandable: true, children: [{ label: "My Programs" }] },
+  { label: "Student Resources", expandable: true, children: [{ label: "Student Resources" }] },
+  { label: "St. George Online Store" },
+  { label: "Logout" },
+];
 
-              {/* Events & Workshops */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Events & Workshops
-                </button>
-                <SidebarNavItem label="Dummy Tab" onClick={() => {}} />
-              </div>
+function SidebarNavItem({
+  item,
+  depth = 0,
+  expanded,
+  onToggle,
+  breadcrumbPath,
+}: {
+  item: NavItem;
+  depth?: number;
+  expanded: Record<string, boolean>;
+  onToggle: (key: string) => void;
+  breadcrumbPath: string;
+}) {
+  const isExpanded = expanded[item.label];
+  const isPurple = item.activeHighlight === "purple";
+  const isPurpleSub = item.activeHighlight === "purple-sub";
 
-              {/* Experiential Learning */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Experiential Learning
-                </button>
-                <SidebarNavItem label="Dummy Tab" onClick={() => {}} />
-              </div>
+  const paddingLeft = 20 + depth * 14;
 
-              {/* Jobs & Recruitment */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Jobs & Recruitment
-                </button>
-                <SidebarNavItem label="Off-Campus Job Board" onClick={() => window.location.href = "/"} />
-              </div>
+  return (
+    <>
+      <button
+        className="w-full text-left flex items-center justify-between transition-colors duration-150 group"
+        style={{
+          paddingLeft,
+          paddingRight: 16,
+          paddingTop: depth === 0 ? 10 : 8,
+          paddingBottom: depth === 0 ? 10 : 8,
+          backgroundColor:
+            isPurple || isPurpleSub
+              ? "#6b3fa0"
+              : undefined,
+        }}
+        onMouseEnter={(e) => {
+          if (!isPurple && !isPurpleSub) {
+            (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.08)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isPurple && !isPurpleSub) {
+            (e.currentTarget as HTMLElement).style.backgroundColor = "";
+          }
+        }}
+        onClick={() => {
+          if (item.label === "Dashboard") {
+            window.location.href = "/dashboard";
+          } else if (item.label === "Off-Campus Job Board") {
+            window.location.href = "/";
+          } else if (item.expandable) {
+            onToggle(item.label);
+          } else if (item.label.startsWith("My ") || item.label === "Student Resources") {
+            window.location.href = `/placeholder?path=${encodeURIComponent(breadcrumbPath + " › " + item.label)}`;
+          } else {
+            window.location.href = `/placeholder?path=${encodeURIComponent(breadcrumbPath + " › " + item.label)}`;
+          }
+        }}
+      >
+        <span
+          className="text-[13px] leading-tight"
+          style={{
+            color: isPurple || isPurpleSub ? "#fff" : "rgba(230,235,245,0.92)",
+            fontWeight: isPurple || isPurpleSub ? 700 : 400,
+          }}
+        >
+          {item.label}
+        </span>
+        {item.expandable && (
+          <ChevronDown
+            size={13}
+            className="flex-shrink-0 transition-transform duration-200"
+            style={{
+              transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
+              color: isPurple || isPurpleSub ? "#fff" : "rgba(180,190,210,0.7)",
+            }}
+          />
+        )}
+      </button>
 
-              {/* Programs */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Programs
-                </button>
-                <SidebarNavItem label="Dummy Tab" onClick={() => {}} />
-              </div>
-
-              {/* Student Resources */}
-              <div>
-                <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm font-medium">
-                  Student Resources
-                </button>
-                <SidebarNavItem label="Dummy Tab" onClick={() => {}} />
-              </div>
-
-              {/* St. George Online Store */}
-              <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm">
-                St. George Online Store
-              </button>
-
-              {/* Logout */}
-              <button className="w-full text-left px-4 py-2 text-white hover:bg-[#5a4a7a] transition-colors text-sm">
-                Logout
-              </button>
-            </div>
-          </div>
+      {/* Children */}
+      {item.children && isExpanded && (
+        <div style={{ backgroundColor: "rgba(0,0,0,0.15)" }}>
+          {item.children.map((child) => (
+            <SidebarNavItem
+              key={child.label}
+              item={child}
+              depth={depth + 1}
+              expanded={expanded}
+              onToggle={onToggle}
+              breadcrumbPath={breadcrumbPath + " › " + item.label}
+            />
+          ))}
         </div>
       )}
+    </>
+  );
+}
+
+function Sidebar({ breadcrumbPath }: { breadcrumbPath: string }) {
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const toggle = (key: string) =>
+    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+
+  return (
+    <div
+      className="flex flex-col overflow-y-auto flex-shrink-0"
+      style={{
+        width: 280,
+        minWidth: 280,
+        backgroundColor: "#1e2a5e",
+        minHeight: "calc(100vh - 0px)",
+      }}
+    >
+      {/* User name */}
+      <div
+        className="px-5 py-5"
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.12)" }}
+      >
+        <h2 className="text-white font-bold text-[22px] leading-tight">Ben Zhou</h2>
+      </div>
+
+      {/* Nav */}
+      <nav className="flex-1 py-1">
+        {SIDEBAR_ITEMS.map((item) => (
+          <SidebarNavItem
+            key={item.label}
+            item={item}
+            depth={0}
+            expanded={expanded}
+            onToggle={toggle}
+            breadcrumbPath=""
+          />
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+// ─── Breadcrumb ──────────────────────────────────────────────────────────────
+
+function Breadcrumb({ path }: { path: string }) {
+  return (
+    <div
+      className="flex items-center gap-2 px-5 py-3 text-[13px] bg-[#f5f5f5] border-b border-[#d0d5de] flex-shrink-0"
+      style={{ height: 40 }}
+    >
+      <span className="text-gray-700">{path}</span>
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
+export default function Placeholder() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activeNav, setActiveNav] = useState("OVERVIEW");
+
+  const handleNavSelect = (item: string) => {
+    window.location.href = "/placeholder";
+  };
+
+  // Get breadcrumb path from URL query parameter
+  const params = new URLSearchParams(window.location.search);
+  const breadcrumbPath = params.get("path") || "Feature Coming Soon";
+
+  return (
+    <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
+      {/* Sidebar */}
+      {sidebarOpen && <Sidebar breadcrumbPath={breadcrumbPath} />}
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <TopNav onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
-        <Breadcrumb />
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <TopNav active={activeNav} onSelect={handleNavSelect} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <Breadcrumb path={breadcrumbPath} />
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto bg-white">
@@ -135,10 +285,10 @@ function Placeholder() {
               <h1 className="text-4xl font-bold text-gray-800 mb-4">Nothing here yet</h1>
               <p className="text-gray-600 text-lg mb-8">This feature is coming soon.</p>
               <button
-                onClick={() => window.location.href = "/"}
+                onClick={() => window.location.href = "/dashboard"}
                 className="px-6 py-3 bg-[#2d5fa6] text-white font-semibold rounded hover:bg-[#244d8a] transition-colors"
               >
-                Back to Job Board
+                Return to Dashboard
               </button>
             </div>
           </div>
@@ -147,5 +297,3 @@ function Placeholder() {
     </div>
   );
 }
-
-export default Placeholder;

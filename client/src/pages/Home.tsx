@@ -84,10 +84,10 @@ interface NavItem {
 
 const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Dashboard" },
-  { label: "Appointments", expandable: true, children: [{ label: "Dummy Tab" }] },
-  { label: "Co-Curricular Record", expandable: true, children: [{ label: "Dummy Tab" }] },
-  { label: "Events & Workshops", expandable: true, children: [{ label: "Dummy Tab" }] },
-  { label: "Experiential Learning", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Appointments", expandable: true, children: [{ label: "My Appointments" }] },
+  { label: "Co-Curricular Record", expandable: true, children: [{ label: "My Co-Curricular Record" }] },
+  { label: "Events & Workshops", expandable: true, children: [{ label: "My Events" }] },
+  { label: "Experiential Learning", expandable: true, children: [{ label: "My Experiential Learning" }] },
   {
     label: "Jobs & Recruitment",
     expandable: true,
@@ -109,8 +109,8 @@ const SIDEBAR_ITEMS: NavItem[] = [
       { label: "Recruitment", expandable: true },
     ],
   },
-  { label: "Programs", expandable: true, children: [{ label: "Dummy Tab" }] },
-  { label: "Student Resources", expandable: true, children: [{ label: "Dummy Tab" }] },
+  { label: "Programs", expandable: true, children: [{ label: "My Programs" }] },
+  { label: "Student Resources", expandable: true, children: [{ label: "Student Resources" }] },
   { label: "St. George Online Store" },
   { label: "Logout" },
 ];
@@ -164,7 +164,7 @@ function SidebarNavItem({
             window.location.href = "/";
           } else if (item.expandable) {
             onToggle(item.label);
-          } else if (item.label === "Dummy Tab") {
+          } else if (item.label.startsWith("My ") || item.label === "Student Resources") {
             window.location.href = "/placeholder";
           } else {
             window.location.href = "/placeholder";
