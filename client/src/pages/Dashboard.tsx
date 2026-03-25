@@ -350,12 +350,12 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
         <h1 className="text-[28px] font-bold text-gray-900 mb-6">Welcome Ben Zhou</h1>
 
         {/* Primary Tabs */}
-        <div className="flex gap-0 mb-6 border-b border-gray-300 pb-0 overflow-x-auto">
+        <div className="flex gap-0 mb-6 border-b border-gray-300 pb-0 overflow-x-hidden" style={{ scrollbarWidth: "none" }}>
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className="px-4 py-3 text-[14px] font-semibold whitespace-nowrap border-b-4 transition-colors"
+              className="px-2 py-2 text-[11px] font-semibold whitespace-nowrap border-b-4 transition-colors flex-shrink-0"
               style={{
                 color: activeTab === tab ? "#333" : "#666",
                 borderBottomColor: activeTab === tab ? "#ff9800" : "transparent",
@@ -390,12 +390,12 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
           {/* Left Column - Main Content */}
           <div className="col-span-2">
             {/* Dashboard Messages Section */}
-            <div className="mb-8 p-8 bg-gray-50 rounded border border-gray-200 text-center">
-              <div className="flex justify-center mb-4">
-                <div className="text-[48px]">⋁</div>
+            <div className="mb-8 p-3 bg-gray-50 rounded border border-gray-200">
+              <div className="flex items-center justify-center gap-2">
+                <div className="text-[16px] text-[#1e3a5f]">⋁</div>
+                <h2 className="text-[12px] font-semibold text-[#1e3a5f] italic">Scroll to see the latest dashboard messages</h2>
+                <div className="text-[16px] text-[#1e3a5f]">⋁</div>
               </div>
-              <h2 className="text-[24px] font-bold text-[#1e3a5f] mb-2 italic">Scroll to see the latest dashboard messages</h2>
-              <div className="flex justify-center text-[48px] text-[#1e3a5f]">⋁</div>
             </div>
 
             {/* Get Hired as Tutor Section */}
@@ -403,9 +403,11 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
               <div className="flex">
                 <div className="flex-1 p-8">
                   <h3 className="text-[20px] font-bold text-gray-900 mb-4">Get hired as a Tutor!</h3>
-                  <div className="bg-gray-100 p-4 rounded mb-4 h-40 flex items-center justify-center text-gray-400">
-                    [Tutor Program Image]
-                  </div>
+                  <img
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663377518546/64xvFQWAGw93WqkAsaFW8F/tutor-program-jKhCqBVbpohmmPetyJCzdD.webp"
+                    alt="Tutor Program"
+                    className="w-full rounded mb-4 h-40 object-cover"
+                  />
                   <p className="text-[13px] text-gray-600 mb-4">
                     Help others, set your own hours and make extra money by joining the U of T Tutor Training Program.
                   </p>
@@ -422,25 +424,21 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
           <div>
             <div className="border border-gray-200 rounded p-6 bg-white">
               <h3 className="text-[14px] font-bold text-gray-900 mb-4">Upcoming Events / Workshops</h3>
-              <div className="space-y-4">
+              <div className="space-y-2 max-h-96 overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
                 {EVENTS.map((event, idx) => (
-                  <div key={idx} className="pb-4 border-b border-gray-200 last:border-b-0">
-                    <p className="text-[12px] font-semibold text-gray-700 mb-1">{event.date}</p>
-                    <p className="text-[12px] text-gray-600 mb-2">{event.time}</p>
-                    <p className="text-[13px] font-semibold text-gray-900 mb-2">{event.title}</p>
-                    <p className="text-[11px] text-gray-600 mb-1">{event.location}</p>
-                    <p className="text-[11px] text-gray-600 mb-2">{event.category}</p>
-                    <p className="text-[11px] text-gray-600 mb-2">{event.organizer}</p>
-                    <p className="text-[11px] text-gray-600 mb-2">{event.host}</p>
+                  <div key={idx} className="pb-2 border-b border-gray-200 last:border-b-0">
+                    <p className="text-[10px] font-semibold text-gray-700">{event.date}</p>
+                    <p className="text-[10px] text-gray-600">{event.time}</p>
+                    <p className="text-[11px] font-semibold text-gray-900 mb-1">{event.title}</p>
+                    <p className="text-[9px] text-gray-600">{event.location}</p>
+                    <p className="text-[9px] text-gray-600">{event.category}</p>
+                    <p className="text-[9px] text-gray-600 mb-1">{event.organizer}</p>
                     {event.tag && (
-                      <>
-                        <span className="inline-block px-2 py-1 bg-[#4caf50] text-white text-[10px] font-semibold rounded mb-2">
-                          {event.tag}
-                        </span>
-                        {event.code && <p className="text-[11px] text-gray-600">{event.code}</p>}
-                      </>
+                      <span className="inline-block px-2 py-0.5 bg-[#4caf50] text-white text-[8px] font-semibold rounded mb-1">
+                        {event.tag}
+                      </span>
                     )}
-                    <button className="mt-2 px-4 py-1.5 bg-[#2d5fa6] text-white text-[11px] font-semibold rounded hover:bg-[#1e4a8a]">
+                    <button className="mt-1 px-3 py-1 bg-[#2d5fa6] text-white text-[9px] font-semibold rounded hover:bg-[#1e4a8a]">
                       View
                     </button>
                   </div>
