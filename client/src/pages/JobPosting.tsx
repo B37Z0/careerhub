@@ -32,7 +32,7 @@ const TOP_NAV_ITEMS = [
   "MY EVENTS",
 ];
 
-function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) => void }) {
+function TopNav({ active, onSelect, onMenuToggle }: { active: string; onSelect: (v: string) => void; onMenuToggle: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: "left" | "right") =>
     scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
@@ -41,7 +41,7 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
     <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
       <button
         className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
-        onClick={() => toast.info("Menu toggled")}
+        onClick={onMenuToggle}
       >
         <Menu size={18} />
       </button>
@@ -168,6 +168,8 @@ function SidebarNavItem({
         onClick={() => {
           if (item.label === "Dashboard") {
             window.location.href = "/dashboard";
+          } else if (item.label === "Off-Campus Job Board") {
+            window.location.href = "/";
           } else if (item.expandable) {
             onToggle(item.label);
           } else {
@@ -259,6 +261,7 @@ function Sidebar() {
 
 export default function JobPosting() {
   const [match, params] = useRoute("/job/:id");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
 
   if (!match) return null;
@@ -315,11 +318,11 @@ export default function JobPosting() {
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
-      <Sidebar />
+      {sidebarOpen && <Sidebar />}
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navigation */}
-        <TopNav active={activeNav} onSelect={setActiveNav} />
+        <TopNav active={activeNav} onSelect={setActiveNav} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <Breadcrumb />
 
         {/* Content Area */}

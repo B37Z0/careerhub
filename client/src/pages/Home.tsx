@@ -24,7 +24,7 @@ const TOP_NAV_ITEMS = [
   "MY EVENTS",
 ];
 
-function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) => void }) {
+function TopNav({ active, onSelect, onMenuToggle }: { active: string; onSelect: (v: string) => void; onMenuToggle: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: "left" | "right") =>
     scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
@@ -33,7 +33,7 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
     <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
       <button
         className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
-        onClick={() => toast.info("Menu toggled")}
+        onClick={onMenuToggle}
       >
         <Menu size={18} />
       </button>
@@ -160,6 +160,8 @@ function SidebarNavItem({
         onClick={() => {
           if (item.label === "Dashboard") {
             window.location.href = "/dashboard";
+          } else if (item.label === "Off-Campus Job Board") {
+            window.location.href = "/";
           } else if (item.expandable) {
             onToggle(item.label);
           } else {
@@ -417,7 +419,7 @@ function Breadcrumb() {
 
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
-function MainContent() {
+function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
   const [keyword, setKeyword] = useState("");
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
@@ -434,7 +436,7 @@ function MainContent() {
 
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-      <TopNav active={activeNav} onSelect={setActiveNav} />
+      <TopNav active={activeNav} onSelect={setActiveNav} onMenuToggle={onMenuToggle} />
       <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
@@ -712,11 +714,12 @@ function MainContent() {
 
 export default function Home() {
   const [, navigate] = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
-      <Sidebar />
-      <MainContent />
+      {sidebarOpen && <Sidebar />}
+      <MainContent onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
     </div>
   );
 }

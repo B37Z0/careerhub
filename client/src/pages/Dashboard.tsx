@@ -22,7 +22,7 @@ const TOP_NAV_ITEMS = [
   "MY EVENTS",
 ];
 
-function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) => void }) {
+function TopNav({ active, onSelect, onMenuToggle }: { active: string; onSelect: (v: string) => void; onMenuToggle: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: "left" | "right") =>
     scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
@@ -31,7 +31,7 @@ function TopNav({ active, onSelect }: { active: string; onSelect: (v: string) =>
     <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
       <button
         className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
-        onClick={() => toast.info("Menu toggled")}
+        onClick={onMenuToggle}
       >
         <Menu size={18} />
       </button>
@@ -155,7 +155,9 @@ function SidebarNavItem({
           }
         }}
         onClick={() => {
-          if (item.expandable) {
+          if (item.label === "Off-Campus Job Board") {
+            handleOffCampusJobBoardClick();
+          } else if (item.expandable) {
             onToggle(item.label);
           } else {
             toast.info("Feature coming soon");
@@ -256,6 +258,12 @@ function Breadcrumb() {
   );
 }
 
+// ─── Sidebar Navigation Item Helper ───────────────────────────────────────────
+
+function handleOffCampusJobBoardClick() {
+  window.location.href = "/";
+}
+
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
 const EVENTS = [
@@ -324,7 +332,7 @@ const EVENTS = [
   },
 ];
 
-function MainContent() {
+function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
   const [activeNav, setActiveNav] = useState("OVERVIEW");
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [activeSubTab, setActiveSubTab] = useState("Overview");
@@ -334,7 +342,7 @@ function MainContent() {
 
   return (
     <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-      <TopNav active={activeNav} onSelect={setActiveNav} />
+      <TopNav active={activeNav} onSelect={setActiveNav} onMenuToggle={onMenuToggle} />
       <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
@@ -412,9 +420,9 @@ function MainContent() {
 
           {/* Right Column - Upcoming Events */}
           <div>
-            <div className="border border-gray-200 rounded p-6 bg-white sticky top-5">
+            <div className="border border-gray-200 rounded p-6 bg-white">
               <h3 className="text-[14px] font-bold text-gray-900 mb-4">Upcoming Events / Workshops</h3>
-              <div className="space-y-4 max-h-[800px] overflow-y-auto">
+              <div className="space-y-4">
                 {EVENTS.map((event, idx) => (
                   <div key={idx} className="pb-4 border-b border-gray-200 last:border-b-0">
                     <p className="text-[12px] font-semibold text-gray-700 mb-1">{event.date}</p>
@@ -449,10 +457,12 @@ function MainContent() {
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
 export default function Dashboard() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
-      <Sidebar />
-      <MainContent />
+      {sidebarOpen && <Sidebar />}
+      <MainContent onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
     </div>
   );
 }
