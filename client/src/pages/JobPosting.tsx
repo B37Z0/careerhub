@@ -346,8 +346,8 @@ export default function JobPosting() {
               <span className="inline-block px-3 py-1 bg-[#607d8b] text-white text-[11px] font-semibold rounded-full">
                 {jobData.compensation}
               </span>
-              <span className="inline-block px-3 py-1 bg-[#1976d2] text-white text-[11px] font-semibold rounded-full">
-                Complete
+              <span className="inline-block px-3 py-1 bg-[#d32f2f] text-white text-[11px] font-semibold rounded-full">
+                Incomplete
               </span>
             </div>
           </div>
@@ -360,18 +360,7 @@ export default function JobPosting() {
           </div>
         </div>
 
-        {/* Status Section */}
-        <div className="border-b border-gray-200 px-8 py-6 max-w-6xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-            <span className="font-semibold text-gray-700">Job Posting Status:</span>
-            <span className="px-3 py-1 bg-[#333] text-white rounded-full text-sm font-semibold">
-              {jobData.status}
-            </span>
-            </div>
-            <button className="text-gray-600 hover:text-gray-800">⋮</button>
-          </div>
-        </div>
+
 
         {/* Tabs Section */}
         <div className="border-b border-gray-200 px-8 max-w-6xl mx-auto">
