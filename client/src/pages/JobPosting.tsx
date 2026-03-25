@@ -339,9 +339,17 @@ export default function JobPosting() {
             </div>
             <h1 className="text-3xl font-bold mb-2">{jobData.id} - {jobData.title}</h1>
             <p className="text-lg text-gray-200">{jobData.organization} - {jobData.division}</p>
-            <button className="mt-4 px-4 py-2 bg-[#333] hover:bg-[#222] rounded text-white font-semibold">
-              I intend to apply
-            </button>
+            <div className="flex gap-2 mt-3 flex-wrap">
+              <span className="inline-block px-3 py-1 bg-[#ff9800] text-white text-[11px] font-semibold rounded-full">
+                {jobData.jobType}
+              </span>
+              <span className="inline-block px-3 py-1 bg-[#607d8b] text-white text-[11px] font-semibold rounded-full">
+                {jobData.compensation}
+              </span>
+              <span className="inline-block px-3 py-1 bg-[#1976d2] text-white text-[11px] font-semibold rounded-full">
+                Complete
+              </span>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <div className="bg-white text-gray-800 px-4 py-2 rounded-full font-semibold flex items-center gap-2">
@@ -547,7 +555,7 @@ export default function JobPosting() {
 
             <div className="space-y-3">
               <button className="w-full px-4 py-2 bg-[#333] text-white font-semibold rounded hover:bg-[#222]">
-                I intend to apply
+                Mark as applied
               </button>
               <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-100">
                 Shortlist

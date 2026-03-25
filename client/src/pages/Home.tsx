@@ -661,16 +661,16 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
               </thead>
               <tbody>
                 {[
-                  { id: 262086, title: "Software Engineer (Co-op)", org: "Google Canada", division: "Engineering", type: "Co-op", months: 4, openings: 8, location: "Toronto", deadline: "2026-04-15" },
-                  { id: 262088, title: "Data Analyst Intern", org: "Shopify", division: "Analytics", type: "Internship", months: 8, openings: 12, location: "Ottawa", deadline: "2026-04-20" },
-                  { id: 262090, title: "Product Manager (New Grad)", org: "Shopify", division: "Product", type: "Full Time", months: 12, openings: 5, location: "Toronto", deadline: "2026-04-25" },
-                  { id: 262095, title: "UX Designer (Co-op)", org: "RBC", division: "Digital", type: "Co-op", months: 4, openings: 6, location: "Toronto", deadline: "2026-05-01" },
-                  { id: 262097, title: "Business Analyst", org: "Deloitte", division: "Consulting", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-05-05" },
-                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", months: 12, openings: 3, location: "U.S.A", deadline: "2026-05-10" },
-                  { id: 262155, title: "Marketing Coordinator", org: "Freshworks", division: "Marketing", type: "Part Time", months: 4, openings: 3, location: "Waterloo", deadline: "2026-05-12" },
-                  { id: 262156, title: "DevOps Engineer", org: "Hootsuite", division: "Infrastructure", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-05-15" },
-                  { id: 262157, title: "Business Development Intern", org: "Stripe", division: "Partnerships", type: "Internship", months: 4, openings: 7, location: "Toronto", deadline: "2026-05-18" },
-                  { id: 262190, title: "Data Science Co-op", org: "TD Bank", division: "Analytics", type: "Co-op", months: 8, openings: 10, location: "Toronto", deadline: "2026-05-20" },
+                  { id: 262086, title: "Software Engineer (Co-op)", org: "Google Canada", division: "Engineering", type: "Co-op", months: 4, openings: 8, location: "Toronto", deadline: "2026-04-15", workLocation: "Hybrid" },
+                  { id: 262088, title: "Data Analyst Intern", org: "Shopify", division: "Analytics", type: "Internship", months: 8, openings: 12, location: "Ottawa", deadline: "2026-04-20", workLocation: "Remote" },
+                  { id: 262090, title: "Product Manager (New Grad)", org: "Shopify", division: "Product", type: "Full Time", months: 12, openings: 5, location: "Toronto", deadline: "2026-04-25", workLocation: "In-Person" },
+                  { id: 262095, title: "UX Designer (Co-op)", org: "RBC", division: "Digital", type: "Co-op", months: 4, openings: 6, location: "Toronto", deadline: "2026-05-01", workLocation: "In-Person" },
+                  { id: 262097, title: "Business Analyst", org: "Deloitte", division: "Consulting", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-05-05", workLocation: "Hybrid" },
+                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", months: 12, openings: 3, location: "U.S.A", deadline: "2026-05-10", workLocation: "Remote" },
+                  { id: 262155, title: "Marketing Coordinator", org: "Freshworks", division: "Marketing", type: "Part Time", months: 4, openings: 3, location: "Waterloo", deadline: "2026-05-12", workLocation: "In-Person" },
+                  { id: 262156, title: "DevOps Engineer", org: "Hootsuite", division: "Infrastructure", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-05-15", workLocation: "Remote" },
+                  { id: 262157, title: "Business Development Intern", org: "Stripe", division: "Partnerships", type: "Internship", months: 4, openings: 7, location: "Toronto", deadline: "2026-05-18", workLocation: "Hybrid" },
+                  { id: 262190, title: "Data Science Co-op", org: "TD Bank", division: "Analytics", type: "Co-op", months: 8, openings: 10, location: "Toronto", deadline: "2026-05-20", workLocation: "In-Person" },
                 ].map((job) => (
                   <tr key={job.id} className="border-b border-[#e0e0e0] hover:bg-[#f9f9f9] transition-colors">
                     <td className="px-4 py-2.5 text-gray-600">—</td>
@@ -690,6 +690,13 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                           </span>
                           <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white bg-[#607d8b] whitespace-nowrap">
                             {job.months}m
+                          </span>
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${
+                            job.workLocation === "In-Person" ? "bg-[#1976d2]" :
+                            job.workLocation === "Remote" ? "bg-[#7b1fa2]" :
+                            "bg-[#00796b]"
+                          }`}>
+                            {job.workLocation}
                           </span>
                         </div>
                       </div>
