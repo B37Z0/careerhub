@@ -1,16 +1,13 @@
 /**
- * Career Portal — Jobs & Recruitment Page
- * Design: Institutional Precision
- * - Deep navy sidebar with purple active state
- * - Teal circular badge counters
- * - White content area with bordered section cards
- * - Horizontal scrollable top navigation bar
+ * Career Portal — Shortlist Page
+ * A copy of the Off-Campus Job Board filtered to shortlisted postings.
+ * Keyword search pre-filled with "quick-search:shortlist".
  */
 
 import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
-import { ChevronDown, ChevronLeft, ChevronRight, Menu, Info, Search } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, Menu, Info, Search, Bookmark } from "lucide-react";
 
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
@@ -270,13 +267,6 @@ const QUICK_SEARCHES = [
   { count: 8, label: "Deadlines Soon", color: "#ea580c" },
 ];
 
-const SAVED_FILTERS = [
-  "Tech Companies - Remote",
-  "Finance - Toronto",
-  "Summer Internships 2024",
-  "4-Month Co-ops",
-];
-
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="border border-[#d0d5de] rounded-sm overflow-hidden bg-white">
@@ -430,18 +420,33 @@ function Breadcrumb() {
       <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>Off Campus Jobs</button>
       <span className="text-gray-500">›</span>
       <button className="text-[#2d5fa6] hover:underline font-semibold" onClick={() => window.location.href = "/"}>Off Campus Job Board</button>
+      <span className="text-gray-500">›</span>
+      <span className="font-semibold text-gray-700 flex items-center gap-1">
+        <Bookmark size={13} className="inline" />
+        Shortlist
+      </span>
     </div>
   );
 }
 
+// ─── Shortlisted Job Data ─────────────────────────────────────────────────────
+
+const SHORTLISTED_JOBS = [
+  { id: 262153, title: "Full-Stack Engineer",         org: "Uncountable",      division: "Head Office",         type: "Full Time",  months: 12, openings: 3,  location: "Toronto",    deadline: "2026-05-10", workLocation: "Remote"    },
+  { id: 262086, title: "Software Engineer (Co-op)",   org: "Google Canada",    division: "Engineering",         type: "Co-op",      months: 4,  openings: 8,  location: "Toronto",    deadline: "2026-04-15", workLocation: "Hybrid"    },
+  { id: 262200, title: "Cloud Solutions Architect",   org: "Microsoft",        division: "Azure",               type: "Full Time",  months: 12, openings: 8,  location: "Remote",     deadline: "2026-06-15", workLocation: "Remote"    },
+  { id: 262228, title: "Investment Banking Analyst",  org: "RBC Capital Markets", division: "Investment Banking", type: "Full Time", months: 12, openings: 8, location: "Toronto",   deadline: "2026-08-25", workLocation: "In-Person" },
+  { id: 262225, title: "UX Researcher (Co-op)",       org: "Wealthsimple",     division: "Product Design",      type: "Co-op",      months: 4,  openings: 2,  location: "Toronto",    deadline: "2026-08-18", workLocation: "Hybrid"    },
+];
+
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
 function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
-  const handleNavSelect = (item: string) => {
+  const handleNavSelect = (_item: string) => {
     window.location.href = "/placeholder";
   };
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState("quick-search:shortlist");
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [jobType, setJobType] = useState("");
   const [industry, setIndustry] = useState("");
@@ -460,8 +465,17 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
       <Breadcrumb />
 
       <div className="flex-1 overflow-y-auto bg-white p-5">
-        {/* Title */}
-        <h2 className="text-[16px] font-bold text-gray-800 mb-4">Off-Campus Job Board</h2>
+        {/* Title with shortlist indicator */}
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-[16px] font-bold text-gray-800">Off-Campus Job Board</h2>
+          <span
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white"
+            style={{ backgroundColor: "#dc2626" }}
+          >
+            <Bookmark size={11} />
+            Shortlist · {SHORTLISTED_JOBS.length} postings
+          </span>
+        </div>
 
         {/* Two-column layout with isolated halves */}
         <div className="grid grid-cols-2 gap-5 mb-3">
@@ -472,15 +486,17 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
             </label>
             <div className="relative mb-4">
               <input
+                id="shortlist-keyword-search"
                 type="text"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder="Keyword Search"
                 className={inputClass}
+                style={{ paddingRight: 32, color: "#dc2626", fontWeight: 600 }}
               />
               <button
                 className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
-                onClick={() => toast.info("Searching...")}
+                onClick={() => toast.info("Searching shortlist...")}
               >
                 <Search size={16} />
               </button>
@@ -631,7 +647,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
             style={{ backgroundColor: "#2d5fa6" }}
             onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#244d8a")}
             onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#2d5fa6")}
-            onClick={() => toast.info("Searching job postings...")}
+            onClick={() => toast.info("Searching shortlisted postings...")}
           >
             Search
           </button>
@@ -644,27 +660,14 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
           >
             Save Filters
           </button>
-          <select
-            className="border border-[#aaa] rounded-sm px-3 py-2 text-[13px] focus:outline-none focus:border-[#2d5fa6] bg-white"
-            onChange={(e) => {
-              if (e.target.value) {
-                toast.info(`Loaded: ${e.target.value}`);
-              }
-            }}
-            defaultValue=""
-          >
-            <option value="">-- Load Saved Filters --</option>
-            {SAVED_FILTERS.map((filter) => (
-              <option key={filter} value={filter}>
-                {filter}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* Job Board Table */}
         <div className="mt-8">
-          <h3 className="text-[14px] font-bold text-gray-800 mb-3">Job Postings</h3>
+          <div className="flex items-center gap-3 mb-3">
+            <h3 className="text-[14px] font-bold text-gray-800">Job Postings</h3>
+            <span className="text-[12px] text-gray-500">— Showing {SHORTLISTED_JOBS.length} shortlisted result{SHORTLISTED_JOBS.length !== 1 ? "s" : ""}</span>
+          </div>
           <div className="border border-[#d0d5de] rounded-sm overflow-x-auto bg-white">
             <table className="w-full text-[13px] border-collapse">
               <thead>
@@ -680,85 +683,39 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                 </tr>
               </thead>
               <tbody>
-                {[
-                  { id: 262086, title: "Software Engineer (Co-op)", org: "Google Canada", division: "Engineering", type: "Co-op", months: 4, openings: 8, location: "Toronto", deadline: "2026-04-15", workLocation: "Hybrid" },
-                  { id: 262088, title: "Data Analyst Intern", org: "Shopify", division: "Analytics", type: "Internship", months: 8, openings: 12, location: "Ottawa", deadline: "2026-04-20", workLocation: "Remote" },
-                  { id: 262090, title: "Product Manager (New Grad)", org: "Shopify", division: "Product", type: "Full Time", months: 12, openings: 5, location: "Toronto", deadline: "2026-04-25", workLocation: "In-Person" },
-                  { id: 262095, title: "UX Designer (Co-op)", org: "RBC", division: "Digital", type: "Co-op", months: 4, openings: 6, location: "Toronto", deadline: "2026-05-01", workLocation: "In-Person" },
-                  { id: 262097, title: "Business Analyst", org: "Deloitte", division: "Consulting", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-05-05", workLocation: "Hybrid" },
-                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-05-10", workLocation: "Remote" },
-                  { id: 262155, title: "Marketing Coordinator", org: "Freshworks", division: "Marketing", type: "Part Time", months: 4, openings: 3, location: "Waterloo", deadline: "2026-05-12", workLocation: "In-Person" },
-                  { id: 262156, title: "DevOps Engineer", org: "Hootsuite", division: "Infrastructure", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-05-15", workLocation: "Remote" },
-                  { id: 262157, title: "Business Development Intern", org: "Stripe", division: "Partnerships", type: "Internship", months: 4, openings: 7, location: "Toronto", deadline: "2026-05-18", workLocation: "Hybrid" },
-                  { id: 262190, title: "Data Science Co-op", org: "TD Bank", division: "Analytics", type: "Co-op", months: 8, openings: 10, location: "Toronto", deadline: "2026-05-20", workLocation: "In-Person" },
-                  { id: 262191, title: "Financial Analyst (Co-op)", org: "BMO", division: "Capital Markets", type: "Co-op", months: 4, openings: 5, location: "Toronto", deadline: "2026-05-22", workLocation: "Hybrid" },
-                  { id: 262192, title: "Civil Engineer Intern", org: "AECOM", division: "Infrastructure", type: "Internship", months: 8, openings: 4, location: "U.S.A", deadline: "2026-05-25", workLocation: "In-Person" },
-                  { id: 262193, title: "Research Assistant", org: "UofT", division: "Computer Science", type: "Part Time", months: 4, openings: 2, location: "Toronto", deadline: "2026-05-28", workLocation: "In-Person" },
-                  { id: 262194, title: "Healthcare Administrator", org: "SickKids Hospital", division: "Operations", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-05-30", workLocation: "In-Person" },
-                  { id: 262195, title: "Environmental Consultant", org: "WSP Global", division: "Environment", type: "Full Time", months: 12, openings: 6, location: "Vancouver", deadline: "2026-06-01", workLocation: "Hybrid" },
-                  { id: 262196, title: "Game Developer (Co-op)", org: "Ubisoft", division: "Programming", type: "Co-op", months: 8, openings: 7, location: "Montreal", deadline: "2026-06-05", workLocation: "In-Person" },
-                  { id: 262197, title: "Supply Chain Analyst", org: "Amazon", division: "Logistics", type: "Full Time", months: 12, openings: 10, location: "Brampton", deadline: "2026-06-08", workLocation: "Hybrid" },
-                  { id: 262198, title: "Graphic Designer", org: "Lululemon", division: "Marketing", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-06-10", workLocation: "In-Person" },
-                  { id: 262199, title: "Biomedical Engineer", org: "Medtronic", division: "R&D", type: "Full Time", months: 12, openings: 4, location: "U.S.A", deadline: "2026-06-12", workLocation: "In-Person" },
-                  { id: 262200, title: "Cloud Solutions Architect", org: "Microsoft", division: "Azure", type: "Full Time", months: 12, openings: 8, location: "Remote", deadline: "2026-06-15", workLocation: "Remote" },
-                  { id: 262201, title: "Marketing Intern", org: "Coca-Cola", division: "Brand Management", type: "Internship", months: 4, openings: 3, location: "Toronto", deadline: "2026-06-18", workLocation: "Hybrid" },
-                  { id: 262202, title: "Aerospace Engineer", org: "Bombardier", division: "Design", type: "Full Time", months: 12, openings: 5, location: "Montreal", deadline: "2026-06-20", workLocation: "In-Person" },
-                  { id: 262203, title: "Data Scientist", org: "Netflix", division: "Algorithms", type: "Full Time", months: 12, openings: 6, location: "Los Angeles", deadline: "2026-06-22", workLocation: "Hybrid" },
-                  { id: 262204, title: "HR Coordinator (Co-op)", org: "Rogers", division: "Talent Acquisition", type: "Co-op", months: 4, openings: 4, location: "Toronto", deadline: "2026-06-25", workLocation: "In-Person" },
-                  { id: 262205, title: "Chemical Engineer", org: "Dow Chemical", division: "Process Engineering", type: "Full Time", months: 12, openings: 3, location: "Remote", deadline: "2026-06-28", workLocation: "In-Person" },
-                  { id: 262206, title: "Journalism Intern", org: "The Globe and Mail", division: "Editorial", type: "Internship", months: 4, openings: 2, location: "Toronto", deadline: "2026-06-30", workLocation: "Hybrid" },
-                  { id: 262207, title: "Electrical Engineer", org: "Hydro One", division: "Power Systems", type: "Full Time", months: 12, openings: 7, location: "Toronto", deadline: "2026-07-01", workLocation: "In-Person" },
-                  { id: 262208, title: "Accountant (Co-op)", org: "KPMG", division: "Audit", type: "Co-op", months: 8, openings: 9, location: "Toronto", deadline: "2026-07-05", workLocation: "Hybrid" },
-                  { id: 262209, title: "Urban Planner", org: "City of Toronto", division: "Planning", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-07-08", workLocation: "In-Person" },
-                  { id: 262210, title: "Veterinary Assistant", org: "Toronto Humane Society", division: "Animal Care", type: "Part Time", months: 4, openings: 1, location: "Toronto", deadline: "2026-07-10", workLocation: "In-Person" },
-                  { id: 262211, title: "Cybersecurity Analyst", org: "CGI", division: "Security", type: "Full Time", months: 12, openings: 5, location: "Montreal", deadline: "2026-07-12", workLocation: "Remote" },
-                  { id: 262212, title: "Public Relations Specialist", org: "Edelman", division: "Communications", type: "Full Time", months: 12, openings: 2, location: "Toronto", deadline: "2026-07-15", workLocation: "Hybrid" },
-                  { id: 262213, title: "Geologist (Co-op)", org: "Barrick Gold", division: "Exploration", type: "Co-op", months: 8, openings: 3, location: "Timmins", deadline: "2026-07-18", workLocation: "In-Person" },
-                  { id: 262214, title: "Fashion Designer Intern", org: "Joe Fresh", division: "Design", type: "Internship", months: 4, openings: 1, location: "Toronto", deadline: "2026-07-20", workLocation: "In-Person" },
-                  { id: 262215, title: "Actuarial Analyst", org: "Manulife", division: "Risk Management", type: "Full Time", months: 12, openings: 4, location: "Waterloo", deadline: "2026-07-22", workLocation: "Hybrid" },
-                  { id: 262216, title: "Chef (Part Time)", org: "Fairmont Hotels", division: "Culinary", type: "Part Time", months: 4, openings: 2, location: "Banff", deadline: "2026-07-25", workLocation: "In-Person" },
-                  { id: 262217, title: "Pharmacist Assistant", org: "Shoppers Drug Mart", division: "Pharmacy", type: "Full Time", months: 12, openings: 6, location: "Toronto", deadline: "2026-07-28", workLocation: "In-Person" },
-                  { id: 262218, title: "Mechanical Engineer", org: "Magna International", division: "Automotive", type: "Full Time", months: 12, openings: 7, location: "Aurora", deadline: "2026-07-30", workLocation: "In-Person" },
-                  { id: 262219, title: "Social Worker", org: "CAMH", division: "Mental Health", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-08-01", workLocation: "In-Person" },
-                  { id: 262220, title: "Web Developer (Co-op)", org: "Bell Canada", division: "Digital", type: "Co-op", months: 8, openings: 5, location: "Toronto", deadline: "2026-08-05", workLocation: "Hybrid" },
-                  { id: 262221, title: "Museum Curator Intern", org: "ROM", division: "Collections", type: "Internship", months: 4, openings: 1, location: "Toronto", deadline: "2026-08-08", workLocation: "In-Person" },
-                  { id: 262222, title: "Construction Project Manager", org: "EllisDon", division: "Construction", type: "Full Time", months: 12, openings: 4, location: "Calgary", deadline: "2026-08-10", workLocation: "In-Person" },
-                  { id: 262223, title: "Data Entry Clerk", org: "Government of Canada", division: "Administration", type: "Part Time", months: 4, openings: 10, location: "Remote", deadline: "2026-08-12", workLocation: "Remote" },
-                  { id: 262224, title: "Biotechnologist", org: "Sanofi Pasteur", division: "Vaccine Research", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-08-15", workLocation: "In-Person" },
-                  { id: 262225, title: "UX Researcher (Co-op)", org: "Wealthsimple", division: "Product Design", type: "Co-op", months: 4, openings: 2, location: "Toronto", deadline: "2026-08-18", workLocation: "Hybrid" },
-                  { id: 262226, title: "Operations Manager", org: "FedEx", division: "Logistics", type: "Full Time", months: 12, openings: 5, location: "U.S.A", deadline: "2026-08-20", workLocation: "In-Person" },
-                  { id: 262227, title: "Digital Marketing Specialist", org: "Hootsuite", division: "Marketing", type: "Full Time", months: 12, openings: 3, location: "Vancouver", deadline: "2026-08-22", workLocation: "Remote" },
-                  { id: 262228, title: "Investment Banking Analyst", org: "RBC Capital Markets", division: "Investment Banking", type: "Full Time", months: 12, openings: 8, location: "Toronto", deadline: "2026-08-25", workLocation: "In-Person" },
-                  { id: 262229, title: "Technical Writer", org: "BlackBerry", division: "Documentation", type: "Full Time", months: 12, openings: 2, location: "Waterloo", deadline: "2026-08-28", workLocation: "Hybrid" },
-                  { id: 262230, title: "Customer Success Manager", org: "Salesforce", division: "Customer Relations", type: "Full Time", months: 12, openings: 6, location: "Toronto", deadline: "2026-08-30", workLocation: "Remote" },
-                  { id: 262231, title: "Machine Learning Engineer", org: "Google Canada", division: "AI Research", type: "Full Time", months: 12, openings: 7, location: "Montreal", deadline: "2026-09-01", workLocation: "Hybrid" },
-                  { id: 262232, title: "Event Coordinator", org: "Metro Toronto Convention Centre", division: "Events", type: "Part Time", months: 4, openings: 3, location: "Toronto", deadline: "2026-09-05", workLocation: "In-Person" },
-                  { id: 262233, title: "Legal Assistant (Co-op)", org: "Osler, Hoskin & Harcourt LLP", division: "Legal Services", type: "Co-op", months: 4, openings: 2, location: "Toronto", deadline: "2026-09-08", workLocation: "In-Person" },
-                  { id: 262234, title: "Quality Assurance Tester", org: "Electronic Arts", division: "Game Testing", type: "Full Time", months: 12, openings: 5, location: "Burnaby", deadline: "2026-09-10", workLocation: "In-Person" },
-                  { id: 262235, title: "Registered Nurse", org: "Unity Health Toronto", division: "Patient Care", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-09-12", workLocation: "In-Person" },
-                ].map((job) => (
-                  <tr key={job.id} className="border-b border-[#e0e0e0] hover:bg-[#f9f9f9] transition-colors">
-                    <td className="px-4 py-2.5 text-gray-600">—</td>
+                {SHORTLISTED_JOBS.map((job, index) => (
+                  <tr
+                    key={job.id}
+                    className="border-b border-[#e0e0e0] hover:bg-[#f9f9f9] transition-colors"
+                    style={index === 0 ? { backgroundColor: "#fffbf0" } : undefined}
+                  >
+                    <td className="px-4 py-2.5">
+                      <span title="Shortlisted">
+                        <Bookmark size={14} style={{ color: "#dc2626" }} fill="#dc2626" />
+                      </span>
+                    </td>
                     <td className="px-4 py-2.5 text-gray-600 font-semibold">{job.id}</td>
                     <td className="px-4 py-2.5">
                       <div>
                         <a href={`/job/${job.id}`} className="text-[#2d5fa6] hover:underline font-semibold block mb-1.5">{job.title}</a>
                         <div className="flex gap-1.5 flex-wrap">
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${job.type === "Co-op" ? "bg-[#ff9800]" :
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${
+                            job.type === "Co-op" ? "bg-[#ff9800]" :
                             job.type === "Internship" ? "bg-[#e91e63]" :
-                              job.type === "Full Time" ? "bg-[#4caf50]" :
-                                job.type === "Part Time" ? "bg-[#2196f3]" :
-                                  "bg-[#9c27b0]"
-                            }`}>
+                            job.type === "Full Time" ? "bg-[#4caf50]" :
+                            job.type === "Part Time" ? "bg-[#2196f3]" :
+                            "bg-[#9c27b0]"
+                          }`}>
                             {job.type}
                           </span>
                           <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white bg-[#607d8b] whitespace-nowrap">
                             {job.months}m
                           </span>
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${job.workLocation === "In-Person" ? "bg-[#1976d2]" :
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${
+                            job.workLocation === "In-Person" ? "bg-[#1976d2]" :
                             job.workLocation === "Remote" ? "bg-[#7b1fa2]" :
-                              "bg-[#00796b]"
-                            }`}>
+                            "bg-[#00796b]"
+                          }`}>
                             {job.workLocation}
                           </span>
                         </div>
@@ -782,8 +739,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
-export default function Home() {
-  const [, navigate] = useLocation();
+export default function Shortlist() {
   const [sidebarOpen, setSidebarOpen] = useState(() => {
     const saved = localStorage.getItem("sidebarOpen");
     return saved !== null ? JSON.parse(saved) : true;

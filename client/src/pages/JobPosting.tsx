@@ -1,4 +1,4 @@
-import { FileText, ChevronDown, ChevronLeft, ChevronRight, Menu } from "lucide-react";
+import { FileText, ChevronDown, ChevronLeft, ChevronRight, Menu, Bookmark } from "lucide-react";
 import { useRoute, useLocation } from "wouter";
 import { useState, useRef } from "react";
 import { toast } from "sonner";
@@ -276,6 +276,7 @@ export default function JobPosting() {
     return saved !== null ? JSON.parse(saved) : true;
   });
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
+  const [shortlisted, setShortlisted] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen((prev: boolean) => {
@@ -577,8 +578,44 @@ export default function JobPosting() {
                   <button className="w-full px-4 py-2 bg-[#333] text-white font-semibold rounded hover:bg-[#222]">
                     Mark as applied
                   </button>
-                  <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-100">
-                    Shortlist
+                  <button
+                    className="w-full px-4 py-2 font-semibold rounded flex items-center justify-center gap-2 transition-all duration-200"
+                    style={shortlisted ? {
+                      backgroundColor: "#dc2626",
+                      color: "#fff",
+                      border: "2px solid #dc2626",
+                    } : {
+                      backgroundColor: "transparent",
+                      color: "#374151",
+                      border: "1px solid #d1d5db",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!shortlisted) (e.currentTarget as HTMLElement).style.backgroundColor = "#f3f4f6";
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!shortlisted) (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
+                    }}
+                    onClick={() => {
+                      const next = !shortlisted;
+                      setShortlisted(next);
+                      if (next) {
+                        toast.success("Added to Shortlist", {
+                          description: `${jobData.title} at ${jobData.organization} has been shortlisted.`,
+                          icon: <Bookmark size={16} fill="currentColor" />,
+                        });
+                      } else {
+                        toast.info("Removed from Shortlist", {
+                          description: `${jobData.title} at ${jobData.organization} has been removed from your shortlist.`,
+                        });
+                      }
+                    }}
+                  >
+                    <Bookmark
+                      size={15}
+                      fill={shortlisted ? "currentColor" : "none"}
+                      className="flex-shrink-0"
+                    />
+                    {shortlisted ? "Shortlisted" : "Shortlist"}
                   </button>
                   <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-100">
                     Not Interested
