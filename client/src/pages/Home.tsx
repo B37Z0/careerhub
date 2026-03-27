@@ -470,7 +470,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                 <Search size={16} />
               </button>
             </div>
-            
+
             {/* Information Summary */}
             <div className="text-[12px] text-gray-600 space-y-2 border-t border-[#e0e0e0] pt-3">
               <div>
@@ -656,7 +656,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                 <tr className="bg-[#f5f5f5] border-b border-[#d0d5de]">
                   <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Status</th>
                   <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">ID</th>
-                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Position</th>
+                  <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap min-w-[210px]">Position</th>
                   <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Organization</th>
                   <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Division</th>
                   <th className="px-4 py-2.5 text-left font-semibold text-gray-700 whitespace-nowrap">Openings</th>
@@ -671,26 +671,26 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                   { id: 262090, title: "Product Manager (New Grad)", org: "Shopify", division: "Product", type: "Full Time", months: 12, openings: 5, location: "Toronto", deadline: "2026-04-25", workLocation: "In-Person" },
                   { id: 262095, title: "UX Designer (Co-op)", org: "RBC", division: "Digital", type: "Co-op", months: 4, openings: 6, location: "Toronto", deadline: "2026-05-01", workLocation: "In-Person" },
                   { id: 262097, title: "Business Analyst", org: "Deloitte", division: "Consulting", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-05-05", workLocation: "Hybrid" },
-                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", months: 12, openings: 3, location: "U.S.A", deadline: "2026-05-10", workLocation: "Remote" },
+                  { id: 262153, title: "Full-Stack Engineer", org: "Uncountable", division: "Head Office", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-05-10", workLocation: "Remote" },
                   { id: 262155, title: "Marketing Coordinator", org: "Freshworks", division: "Marketing", type: "Part Time", months: 4, openings: 3, location: "Waterloo", deadline: "2026-05-12", workLocation: "In-Person" },
                   { id: 262156, title: "DevOps Engineer", org: "Hootsuite", division: "Infrastructure", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-05-15", workLocation: "Remote" },
                   { id: 262157, title: "Business Development Intern", org: "Stripe", division: "Partnerships", type: "Internship", months: 4, openings: 7, location: "Toronto", deadline: "2026-05-18", workLocation: "Hybrid" },
                   { id: 262190, title: "Data Science Co-op", org: "TD Bank", division: "Analytics", type: "Co-op", months: 8, openings: 10, location: "Toronto", deadline: "2026-05-20", workLocation: "In-Person" },
                   { id: 262191, title: "Financial Analyst (Co-op)", org: "BMO", division: "Capital Markets", type: "Co-op", months: 4, openings: 5, location: "Toronto", deadline: "2026-05-22", workLocation: "Hybrid" },
-                  { id: 262192, title: "Civil Engineer Intern", org: "AECOM", division: "Infrastructure", type: "Internship", months: 8, openings: 4, location: "Mississauga", deadline: "2026-05-25", workLocation: "In-Person" },
+                  { id: 262192, title: "Civil Engineer Intern", org: "AECOM", division: "Infrastructure", type: "Internship", months: 8, openings: 4, location: "U.S.A", deadline: "2026-05-25", workLocation: "In-Person" },
                   { id: 262193, title: "Research Assistant", org: "UofT", division: "Computer Science", type: "Part Time", months: 4, openings: 2, location: "Toronto", deadline: "2026-05-28", workLocation: "In-Person" },
                   { id: 262194, title: "Healthcare Administrator", org: "SickKids Hospital", division: "Operations", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-05-30", workLocation: "In-Person" },
                   { id: 262195, title: "Environmental Consultant", org: "WSP Global", division: "Environment", type: "Full Time", months: 12, openings: 6, location: "Vancouver", deadline: "2026-06-01", workLocation: "Hybrid" },
                   { id: 262196, title: "Game Developer (Co-op)", org: "Ubisoft", division: "Programming", type: "Co-op", months: 8, openings: 7, location: "Montreal", deadline: "2026-06-05", workLocation: "In-Person" },
                   { id: 262197, title: "Supply Chain Analyst", org: "Amazon", division: "Logistics", type: "Full Time", months: 12, openings: 10, location: "Brampton", deadline: "2026-06-08", workLocation: "Hybrid" },
                   { id: 262198, title: "Graphic Designer", org: "Lululemon", division: "Marketing", type: "Full Time", months: 12, openings: 2, location: "Vancouver", deadline: "2026-06-10", workLocation: "In-Person" },
-                  { id: 262199, title: "Biomedical Engineer", org: "Medtronic", division: "R&D", type: "Full Time", months: 12, openings: 4, location: "Mississauga", deadline: "2026-06-12", workLocation: "In-Person" },
+                  { id: 262199, title: "Biomedical Engineer", org: "Medtronic", division: "R&D", type: "Full Time", months: 12, openings: 4, location: "U.S.A", deadline: "2026-06-12", workLocation: "In-Person" },
                   { id: 262200, title: "Cloud Solutions Architect", org: "Microsoft", division: "Azure", type: "Full Time", months: 12, openings: 8, location: "Remote", deadline: "2026-06-15", workLocation: "Remote" },
                   { id: 262201, title: "Marketing Intern", org: "Coca-Cola", division: "Brand Management", type: "Internship", months: 4, openings: 3, location: "Toronto", deadline: "2026-06-18", workLocation: "Hybrid" },
                   { id: 262202, title: "Aerospace Engineer", org: "Bombardier", division: "Design", type: "Full Time", months: 12, openings: 5, location: "Montreal", deadline: "2026-06-20", workLocation: "In-Person" },
                   { id: 262203, title: "Data Scientist", org: "Netflix", division: "Algorithms", type: "Full Time", months: 12, openings: 6, location: "Los Angeles", deadline: "2026-06-22", workLocation: "Hybrid" },
                   { id: 262204, title: "HR Coordinator (Co-op)", org: "Rogers", division: "Talent Acquisition", type: "Co-op", months: 4, openings: 4, location: "Toronto", deadline: "2026-06-25", workLocation: "In-Person" },
-                  { id: 262205, title: "Chemical Engineer", org: "Dow Chemical", division: "Process Engineering", type: "Full Time", months: 12, openings: 3, location: "Fort Saskatchewan", deadline: "2026-06-28", workLocation: "In-Person" },
+                  { id: 262205, title: "Chemical Engineer", org: "Dow Chemical", division: "Process Engineering", type: "Full Time", months: 12, openings: 3, location: "Remote", deadline: "2026-06-28", workLocation: "In-Person" },
                   { id: 262206, title: "Journalism Intern", org: "The Globe and Mail", division: "Editorial", type: "Internship", months: 4, openings: 2, location: "Toronto", deadline: "2026-06-30", workLocation: "Hybrid" },
                   { id: 262207, title: "Electrical Engineer", org: "Hydro One", division: "Power Systems", type: "Full Time", months: 12, openings: 7, location: "Toronto", deadline: "2026-07-01", workLocation: "In-Person" },
                   { id: 262208, title: "Accountant (Co-op)", org: "KPMG", division: "Audit", type: "Co-op", months: 8, openings: 9, location: "Toronto", deadline: "2026-07-05", workLocation: "Hybrid" },
@@ -711,13 +711,13 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                   { id: 262223, title: "Data Entry Clerk", org: "Government of Canada", division: "Administration", type: "Part Time", months: 4, openings: 10, location: "Remote", deadline: "2026-08-12", workLocation: "Remote" },
                   { id: 262224, title: "Biotechnologist", org: "Sanofi Pasteur", division: "Vaccine Research", type: "Full Time", months: 12, openings: 3, location: "Toronto", deadline: "2026-08-15", workLocation: "In-Person" },
                   { id: 262225, title: "UX Researcher (Co-op)", org: "Wealthsimple", division: "Product Design", type: "Co-op", months: 4, openings: 2, location: "Toronto", deadline: "2026-08-18", workLocation: "Hybrid" },
-                  { id: 262226, title: "Operations Manager", org: "FedEx", division: "Logistics", type: "Full Time", months: 12, openings: 5, location: "Mississauga", deadline: "2026-08-20", workLocation: "In-Person" },
+                  { id: 262226, title: "Operations Manager", org: "FedEx", division: "Logistics", type: "Full Time", months: 12, openings: 5, location: "U.S.A", deadline: "2026-08-20", workLocation: "In-Person" },
                   { id: 262227, title: "Digital Marketing Specialist", org: "Hootsuite", division: "Marketing", type: "Full Time", months: 12, openings: 3, location: "Vancouver", deadline: "2026-08-22", workLocation: "Remote" },
                   { id: 262228, title: "Investment Banking Analyst", org: "RBC Capital Markets", division: "Investment Banking", type: "Full Time", months: 12, openings: 8, location: "Toronto", deadline: "2026-08-25", workLocation: "In-Person" },
                   { id: 262229, title: "Technical Writer", org: "BlackBerry", division: "Documentation", type: "Full Time", months: 12, openings: 2, location: "Waterloo", deadline: "2026-08-28", workLocation: "Hybrid" },
                   { id: 262230, title: "Customer Success Manager", org: "Salesforce", division: "Customer Relations", type: "Full Time", months: 12, openings: 6, location: "Toronto", deadline: "2026-08-30", workLocation: "Remote" },
                   { id: 262231, title: "Machine Learning Engineer", org: "Google Canada", division: "AI Research", type: "Full Time", months: 12, openings: 7, location: "Montreal", deadline: "2026-09-01", workLocation: "Hybrid" },
-                  { id: 262232, title: "Event Coordinator (Part Time)", org: "Metro Toronto Convention Centre", division: "Events", type: "Part Time", months: 4, openings: 3, location: "Toronto", deadline: "2026-09-05", workLocation: "In-Person" },
+                  { id: 262232, title: "Event Coordinator", org: "Metro Toronto Convention Centre", division: "Events", type: "Part Time", months: 4, openings: 3, location: "Toronto", deadline: "2026-09-05", workLocation: "In-Person" },
                   { id: 262233, title: "Legal Assistant (Co-op)", org: "Osler, Hoskin & Harcourt LLP", division: "Legal Services", type: "Co-op", months: 4, openings: 2, location: "Toronto", deadline: "2026-09-08", workLocation: "In-Person" },
                   { id: 262234, title: "Quality Assurance Tester", org: "Electronic Arts", division: "Game Testing", type: "Full Time", months: 12, openings: 5, location: "Burnaby", deadline: "2026-09-10", workLocation: "In-Person" },
                   { id: 262235, title: "Registered Nurse", org: "Unity Health Toronto", division: "Patient Care", type: "Full Time", months: 12, openings: 15, location: "Toronto", deadline: "2026-09-12", workLocation: "In-Person" },
@@ -729,23 +729,21 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                       <div>
                         <a href={`/job/${job.id}`} className="text-[#2d5fa6] hover:underline font-semibold block mb-1.5">{job.title}</a>
                         <div className="flex gap-1.5 flex-wrap">
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${
-                            job.type === "Co-op" ? "bg-[#ff9800]" :
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${job.type === "Co-op" ? "bg-[#ff9800]" :
                             job.type === "Internship" ? "bg-[#e91e63]" :
-                            job.type === "Full Time" ? "bg-[#4caf50]" :
-                            job.type === "Part Time" ? "bg-[#2196f3]" :
-                            "bg-[#9c27b0]"
-                          }`}>
+                              job.type === "Full Time" ? "bg-[#4caf50]" :
+                                job.type === "Part Time" ? "bg-[#2196f3]" :
+                                  "bg-[#9c27b0]"
+                            }`}>
                             {job.type}
                           </span>
                           <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white bg-[#607d8b] whitespace-nowrap">
                             {job.months}m
                           </span>
-                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${
-                            job.workLocation === "In-Person" ? "bg-[#1976d2]" :
+                          <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold text-white whitespace-nowrap ${job.workLocation === "In-Person" ? "bg-[#1976d2]" :
                             job.workLocation === "Remote" ? "bg-[#7b1fa2]" :
-                            "bg-[#00796b]"
-                          }`}>
+                              "bg-[#00796b]"
+                            }`}>
                             {job.workLocation}
                           </span>
                         </div>
@@ -772,7 +770,7 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
 export default function Home() {
   const [, navigate] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  
+
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
       {sidebarOpen && <Sidebar />}
