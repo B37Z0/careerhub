@@ -200,10 +200,18 @@ function SidebarNavItem({
 }
 
 function Sidebar({ breadcrumbPath }: { breadcrumbPath: string }) {
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
+    const saved = localStorage.getItem("sidebarExpanded");
+    if (saved) return JSON.parse(saved);
+    return {};
+  });
 
   const toggle = (key: string) =>
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+    setExpanded((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("sidebarExpanded", JSON.stringify(next));
+      return next;
+    });
 
   return (
     <div
@@ -256,8 +264,19 @@ function Breadcrumb({ path }: { path: string }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Placeholder() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem("sidebarOpen");
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   const [activeNav, setActiveNav] = useState("");
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev: boolean) => {
+      const next = !prev;
+      localStorage.setItem("sidebarOpen", JSON.stringify(next));
+      return next;
+    });
+  };
 
   const handleNavSelect = (item: string) => {
     window.location.href = "/placeholder";
@@ -274,7 +293,7 @@ export default function Placeholder() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <TopNav onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <TopNav onMenuToggle={toggleSidebar} />
         <Breadcrumb path={breadcrumbPath} />
 
         {/* Content Area */}

@@ -211,13 +211,21 @@ function SidebarNavItem({
 }
 
 function Sidebar() {
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({
-    "Jobs & Recruitment": true,
-    "Off-Campus Jobs": true,
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
+    const saved = localStorage.getItem("sidebarExpanded");
+    if (saved) return JSON.parse(saved);
+    return {
+      "Jobs & Recruitment": true,
+      "Off-Campus Jobs": true,
+    };
   });
 
   const toggle = (key: string) =>
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+    setExpanded((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("sidebarExpanded", JSON.stringify(next));
+      return next;
+    });
 
   return (
     <div
@@ -769,12 +777,23 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
 
 export default function Home() {
   const [, navigate] = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem("sidebarOpen");
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev: boolean) => {
+      const next = !prev;
+      localStorage.setItem("sidebarOpen", JSON.stringify(next));
+      return next;
+    });
+  };
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ backgroundColor: "#f0f0f0" }}>
       {sidebarOpen && <Sidebar />}
-      <MainContent onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+      <MainContent onMenuToggle={toggleSidebar} />
     </div>
   );
 }

@@ -219,13 +219,21 @@ function SidebarNavItem({
 }
 
 function Sidebar() {
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({
-    "Jobs & Recruitment": true,
-    "Off-Campus Jobs": true,
+  const [expanded, setExpanded] = useState<Record<string, boolean>>(() => {
+    const saved = localStorage.getItem("sidebarExpanded");
+    if (saved) return JSON.parse(saved);
+    return {
+      "Jobs & Recruitment": true,
+      "Off-Campus Jobs": true,
+    };
   });
 
   const toggle = (key: string) =>
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+    setExpanded((prev) => {
+      const next = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("sidebarExpanded", JSON.stringify(next));
+      return next;
+    });
 
   return (
     <div
@@ -263,8 +271,19 @@ function Sidebar() {
 
 export default function JobPosting() {
   const [match, params] = useRoute("/job/:id");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    const saved = localStorage.getItem("sidebarOpen");
+    return saved !== null ? JSON.parse(saved) : true;
+  });
   const [activeNav, setActiveNav] = useState("MY APPLICATIONS");
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev: boolean) => {
+      const next = !prev;
+      localStorage.setItem("sidebarOpen", JSON.stringify(next));
+      return next;
+    });
+  };
 
   const handleNavSelect = (item: string) => {
     window.location.href = "/placeholder";
@@ -328,7 +347,7 @@ export default function JobPosting() {
 
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navigation */}
-        <TopNav active={activeNav} onSelect={handleNavSelect} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <TopNav active={activeNav} onSelect={handleNavSelect} onMenuToggle={toggleSidebar} />
         <Breadcrumb />
 
         {/* Content Area */}
