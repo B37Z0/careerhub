@@ -9,6 +9,7 @@ import JobPosting from "./pages/JobPosting";
 import Dashboard from "./pages/Dashboard";
 import Placeholder from "./pages/Placeholder";
 import Shortlist from "./pages/Shortlist";
+import SearchResults from "./pages/SearchResults";
 
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
       <Route path={"/dashboard"} component={Dashboard} />
       <Route path={"/placeholder"} component={Placeholder} />
       <Route path={"/shortlist"} component={Shortlist} />
+      <Route path={"/search"} component={SearchResults} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

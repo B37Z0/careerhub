@@ -437,6 +437,7 @@ function Breadcrumb() {
 // ─── Main Content ─────────────────────────────────────────────────────────────
 
 function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
+  const [, navigate] = useLocation();
   const handleNavSelect = (item: string) => {
     window.location.href = "/placeholder";
   };
@@ -631,7 +632,10 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
             style={{ backgroundColor: "#2d5fa6" }}
             onMouseEnter={(e) => ((e.target as HTMLElement).style.backgroundColor = "#244d8a")}
             onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "#2d5fa6")}
-            onClick={() => toast.info("Searching job postings...")}
+            onClick={() => {
+              if (keyword.trim()) navigate("/search");
+              else toast.info("Please enter a keyword to search");
+            }}
           >
             Search
           </button>
