@@ -502,14 +502,14 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
                   If you have any questions or would like to discuss your concerns, please contact:
                 </p>
                 <p className="text-[11px] font-semibold text-gray-700 mt-1">
-                  Career Exploration & Education
+                  Career Exploration & Education -
+                  <a
+                    href="mailto:careerservices@utoronto.ca"
+                    className="ml-1 text-[11px] text-[#2d5fa6] hover:underline"
+                  >
+                    careerservices@utoronto.ca
+                  </a>
                 </p>
-                <a
-                  href="mailto:careerservices@utoronto.ca"
-                  className="text-[11px] text-[#2d5fa6] hover:underline"
-                >
-                  careerservices@utoronto.ca
-                </a>
               </div>
             </div>
           </div>
