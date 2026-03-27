@@ -85,7 +85,7 @@ const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Appointments", expandable: true, children: [{ label: "My Appointments" }] },
   { label: "Co-Curricular Record", expandable: true, children: [{ label: "My Co-Curricular Record" }] },
   { label: "Events & Workshops", expandable: true, children: [{ label: "My Events" }] },
-  { label: "Experiential Learning", expandable: true, children: [{ label: "My Experiential Learning" }] },
+  { label: "Experiential Learning" },
   {
     label: "Jobs & Recruitment",
     expandable: true,
@@ -155,12 +155,12 @@ function SidebarNavItem({
           }
         }}
         onClick={() => {
-          if (item.label === "Off-Campus Job Board") {
+          if (item.label === "Dashboard") {
+            window.location.href = "/dashboard";
+          } else if (item.label === "Off-Campus Job Board") {
             handleOffCampusJobBoardClick();
           } else if (item.expandable) {
             onToggle(item.label);
-          } else if (item.label.startsWith("My ") || item.label === "Student Resources") {
-            window.location.href = "/placeholder";
           } else {
             window.location.href = "/placeholder";
           }
@@ -401,23 +401,28 @@ function MainContent({ onMenuToggle }: { onMenuToggle: () => void }) {
             </div>
 
             {/* Get Hired as Tutor Section */}
-            <div className="border border-gray-200 rounded overflow-hidden bg-white">
-              <div className="flex">
-                <div className="flex-1 p-8">
-                  <h3 className="text-[20px] font-bold text-gray-900 mb-4">Get hired as a Tutor!</h3>
-                  <img
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663377518546/64xvFQWAGw93WqkAsaFW8F/tutor-program-jKhCqBVbpohmmPetyJCzdD.webp"
-                    alt="Tutor Program"
-                    className="w-full rounded mb-4 h-40 object-cover"
-                  />
-                  <p className="text-[13px] text-gray-600 mb-4">
-                    Help others, set your own hours and make extra money by joining the U of T Tutor Training Program.
-                  </p>
-                  <p className="text-[13px] font-semibold text-[#2d5fa6] mb-4">uoft.me/UT3</p>
-                  <button className="px-4 py-2 bg-[#2d5fa6] text-white text-[12px] font-semibold rounded hover:bg-[#1e4a8a]">
-                    Learn More
-                  </button>
-                </div>
+            <div className="bg-white mb-6">
+              <h3 className="text-[15px] font-bold text-gray-900 mb-3">Get hired as a Tutor!</h3>
+              <img
+                src="/tutor-banner.png"
+                alt="Become a Tutor - U of T Tutor Training Program"
+                className="mb-4"
+              />
+              <p className="text-[14px] text-gray-800 mb-4 leading-relaxed">
+                Hey upper year students! Interested in becoming helping other students learn and to make some extra money on your own schedule?
+              </p>
+              <button className="w-full py-2.5 bg-[#2d5fa6] text-white text-[13px] font-bold hover:bg-[#1e4a8a] transition-colors">
+                Join the UT3 program to become a U of T trained tutor!
+              </button>
+            </div>
+
+            {/* Your Schedule Section */}
+            <div className="border border-gray-300 rounded bg-white overflow-hidden">
+              <div className="px-4 py-3 bg-gray-100 border-b border-gray-300">
+                <h3 className="text-[13px] font-bold text-gray-800">Your Schedule</h3>
+              </div>
+              <div className="px-4 py-3 bg-gray-50">
+                <p className="text-[13px] font-bold text-[#8a6a00]">No upcoming schedules.</p>
               </div>
             </div>
           </div>

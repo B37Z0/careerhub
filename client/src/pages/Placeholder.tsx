@@ -13,7 +13,7 @@ const TOP_NAV_ITEMS = [
   "MY EVENTS",
 ];
 
-function TopNav({ active, onSelect, onMenuToggle }: { active: string; onSelect: (v: string) => void; onMenuToggle: () => void }) {
+function TopNav({ onMenuToggle }: { onMenuToggle: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scroll = (dir: "left" | "right") =>
     scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
@@ -40,11 +40,10 @@ function TopNav({ active, onSelect, onMenuToggle }: { active: string; onSelect: 
         {TOP_NAV_ITEMS.map((item) => (
           <button
             key={item}
-            onClick={() => onSelect(item)}
-            className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0"
+            className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0 cursor-default"
             style={{
-              color: active === item ? "#1a1a1a" : "#444",
-              borderBottomColor: active === item ? "#2d5fa6" : "transparent",
+              color: "#444",
+              borderBottomColor: "transparent",
             }}
           >
             {item}
@@ -76,7 +75,7 @@ const SIDEBAR_ITEMS: NavItem[] = [
   { label: "Appointments", expandable: true, children: [{ label: "My Appointments" }] },
   { label: "Co-Curricular Record", expandable: true, children: [{ label: "My Co-Curricular Record" }] },
   { label: "Events & Workshops", expandable: true, children: [{ label: "My Events" }] },
-  { label: "Experiential Learning", expandable: true, children: [{ label: "My Experiential Learning" }] },
+  { label: "Experiential Learning" },
   {
     label: "Jobs & Recruitment",
     expandable: true,
@@ -258,7 +257,7 @@ function Breadcrumb({ path }: { path: string }) {
 
 export default function Placeholder() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [activeNav, setActiveNav] = useState("OVERVIEW");
+  const [activeNav, setActiveNav] = useState("");
 
   const handleNavSelect = (item: string) => {
     window.location.href = "/placeholder";
@@ -275,7 +274,7 @@ export default function Placeholder() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <TopNav active={activeNav} onSelect={handleNavSelect} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
+        <TopNav onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <Breadcrumb path={breadcrumbPath} />
 
         {/* Content Area */}
