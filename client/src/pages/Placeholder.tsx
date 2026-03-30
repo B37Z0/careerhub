@@ -4,22 +4,75 @@ import { useState, useRef } from "react";
 // ─── Top Navigation ───────────────────────────────────────────────────────────
 
 const TOP_NAV_ITEMS = [
-  "OVERVIEW",
+  "DASHBOARD",
+  "APPOINTMENTS",
+  "CO-CURRICULAR RECORD",
+  "EVENTS & WORKSHOPS",
   "EXPERIENTIAL RECORD",
-  "MY DOCUMENTS",
-  "MY APPLICATIONS",
-  "MY INTERVIEWS",
+  "JOBS & RECRUITMENT",
+  "PROGRAMS",
+  "STUDENT RESOURCES",
+  "ST. GEORGE ONLINE STORE",
+];
+
+const APPOINTMENTS_SUBMENU = [
   "MY APPOINTMENTS",
-  "MY EVENTS",
+];
+
+interface SubMenuItem {
+  label: string;
+  children?: string[];
+}
+
+const JOBS_RECRUITMENT_SUBMENU: (string | SubMenuItem)[] = [
+  "WORK STUDY",
+  "ON-CAMPUS JOBS",
+  {
+    label: "OFF-CAMPUS JOBS",
+    children: ["OFF-CAMPUS JOB BOARD", "OFF-CAMPUS JOB DOCUMENTS", "OFF-CAMPUS JOB APPLICATIONS"],
+  },
+  "CASUAL JOB BOARD",
+  "RECRUITMENT",
+  "VOLUNTEER POSTINGS",
+];
+
+interface TopNavItem {
+  label: string;
+  submenu?: (string | SubMenuItem)[];
+}
+
+const TOP_NAV_CONFIG: TopNavItem[] = [
+  { label: "DASHBOARD" },
+  { label: "APPOINTMENTS", submenu: APPOINTMENTS_SUBMENU },
+  { label: "CO-CURRICULAR RECORD" },
+  { label: "EVENTS & WORKSHOPS" },
+  { label: "EXPERIENTIAL RECORD" },
+  { label: "JOBS & RECRUITMENT", submenu: JOBS_RECRUITMENT_SUBMENU },
+  { label: "PROGRAMS" },
+  { label: "STUDENT RESOURCES" },
+  { label: "ST. GEORGE ONLINE STORE" },
 ];
 
 function TopNav({ onMenuToggle }: { onMenuToggle: () => void }) {
+  const navRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const submenuItemRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
+  const [openSubSubmenu, setOpenSubSubmenu] = useState<string | null>(null);
+  
   const scroll = (dir: "left" | "right") =>
     scrollRef.current?.scrollBy({ left: dir === "left" ? -200 : 200, behavior: "smooth" });
+  
+  const handleMenuEnter = (item: any) => {
+    if (item.submenu) {
+      setOpenSubmenu(item.label);
+    }
+  };
 
   return (
-    <div className="flex items-stretch h-[48px] bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0">
+    <div className="flex items-stretch bg-[#f0f0f0] border-b border-[#ccc] flex-shrink-0 flex-col relative">
+      <div className="flex items-stretch h-[48px]" ref={navRef}>
       <button
         className="px-3 flex items-center text-gray-500 hover:text-gray-800 flex-shrink-0 border-r border-[#ccc]"
         onClick={onMenuToggle}
@@ -37,17 +90,27 @@ function TopNav({ onMenuToggle }: { onMenuToggle: () => void }) {
         className="flex items-stretch overflow-x-hidden flex-1"
         style={{ scrollbarWidth: "none" }}
       >
-        {TOP_NAV_ITEMS.map((item) => (
-          <button
-            key={item}
-            className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0 cursor-default"
-            style={{
-              color: "#444",
-              borderBottomColor: "transparent",
+        {TOP_NAV_CONFIG.map((item) => (
+          <div 
+            key={item.label}
+            ref={(el) => {
+              if (el) itemRefs.current[item.label] = el;
             }}
+            className="relative flex items-stretch"
+            onMouseEnter={() => handleMenuEnter(item)}
+            onMouseLeave={() => item.submenu && setOpenSubmenu(null)}
           >
-            {item}
-          </button>
+            <button
+              className="flex items-center px-4 text-[12.5px] font-semibold tracking-wide whitespace-nowrap border-b-[3px] transition-all duration-150 flex-shrink-0 cursor-default gap-1"
+              style={{
+                color: "#444",
+                borderBottomColor: "transparent",
+              }}
+            >
+              {item.label}
+              {item.submenu && <ChevronDown size={14} />}
+            </button>
+          </div>
         ))}
       </div>
       <button
@@ -56,6 +119,105 @@ function TopNav({ onMenuToggle }: { onMenuToggle: () => void }) {
       >
         <ChevronRight size={16} />
       </button>
+      </div>
+      
+      {/* Dropdown Submenu - Rendered outside scroll container */}
+      {openSubmenu && (
+        <div className="absolute top-full z-50 pointer-events-none" style={{ left: (() => {
+          const element = itemRefs.current[openSubmenu];
+          const nav = navRef.current;
+          if (element && nav) {
+            return element.getBoundingClientRect().left - nav.getBoundingClientRect().left;
+          }
+          return 0;
+        })() }}>
+          <div 
+            className="bg-white border border-[#ccc] shadow-lg pointer-events-auto max-w-xs relative"
+            onMouseEnter={() => setOpenSubmenu(openSubmenu)}
+            onMouseLeave={() => {
+              setOpenSubmenu(null);
+              setOpenSubSubmenu(null);
+            }}
+          >
+            {TOP_NAV_CONFIG.find(item => item.label === openSubmenu)?.submenu?.map((item) => {
+              const isObject = typeof item === 'object';
+              const label = isObject ? item.label : item;
+              const hasChildren = isObject && item.children && item.children.length > 0;
+              
+              return (
+                <div 
+                  key={label}
+                  ref={(el) => {
+                    if (el) submenuItemRefs.current[label] = el;
+                  }}
+                  onMouseEnter={() => hasChildren && setOpenSubSubmenu(label)}
+                >
+                  <button
+                    onClick={() => {
+                      if (!hasChildren) {
+                        if (onSubmenuSelect) onSubmenuSelect(label);
+                        setOpenSubmenu(null);
+                        setOpenSubSubmenu(null);
+                      }
+                    }}
+                    className="w-full text-left px-4 py-3 text-[12.5px] font-semibold text-gray-700 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0 flex items-center justify-between"
+                  >
+                    <span>{label}</span>
+                    {hasChildren && <ChevronDown size={12} className="rotate-90" />}
+                  </button>
+                </div>
+              );
+            })}
+            
+            {/* Nested submenu - positioned to the right */}
+            {openSubSubmenu && (() => {
+              const item = TOP_NAV_CONFIG.find(item => item.label === openSubmenu)?.submenu?.find((item) => {
+                const isObject = typeof item === 'object';
+                return (isObject ? item.label : item) === openSubSubmenu;
+              }) as SubMenuItem;
+              
+              if (!item || !item.children) return null;
+              
+              const parentItem = submenuItemRefs.current[openSubSubmenu];
+              if (!parentItem) return null;
+              
+              const mainDropdown = parentItem.closest('.max-w-xs') as HTMLElement;
+              if (!mainDropdown) return null;
+              
+              const parentRect = parentItem.getBoundingClientRect();
+              const dropdownRect = mainDropdown.getBoundingClientRect();
+              const topOffset = parentRect.top - dropdownRect.top;
+              
+              return (
+                <div 
+                  className="absolute top-0 left-full z-50 pointer-events-auto ml-0 bg-white border border-[#ccc] shadow-lg"
+                  style={{ top: topOffset }}
+                  onMouseEnter={() => setOpenSubSubmenu(openSubSubmenu)}
+                  onMouseLeave={() => setOpenSubSubmenu(null)}
+                >
+                  {item.children.map((child) => (
+                    <button
+                      key={child}
+                      onClick={() => {
+                        if (child === "OFF-CAMPUS JOB BOARD") {
+                          window.location.href = "/";
+                        } else {
+                          if (onSubmenuSelect) onSubmenuSelect(child);
+                        }
+                        setOpenSubmenu(null);
+                        setOpenSubSubmenu(null);
+                      }}
+                      className="w-full text-left px-4 py-3 text-[12.5px] font-semibold text-gray-700 hover:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0 whitespace-nowrap"
+                    >
+                      {child}
+                    </button>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -279,7 +441,11 @@ export default function Placeholder() {
   };
 
   const handleNavSelect = (item: string) => {
-    window.location.href = "/placeholder";
+    if (item === "DASHBOARD") {
+      window.location.href = "/dashboard";
+    } else {
+      window.location.href = "/placeholder";
+    }
   };
 
   // Get breadcrumb path from URL query parameter

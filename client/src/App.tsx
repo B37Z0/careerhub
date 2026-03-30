@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Placeholder from "./pages/Placeholder";
 import Shortlist from "./pages/Shortlist";
 import SearchResults from "./pages/SearchResults";
+import OffCampusJobBoard from "./pages/OffCampusJobBoard";
 
 
 function Router() {
@@ -21,6 +22,7 @@ function Router() {
       <Route path={"/placeholder"} component={Placeholder} />
       <Route path={"/shortlist"} component={Shortlist} />
       <Route path={"/search"} component={SearchResults} />
+      <Route path={"/off-campus-jobs"} component={OffCampusJobBoard} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
